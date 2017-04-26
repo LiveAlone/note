@@ -1,0 +1,52 @@
+
+
+autoconfiguration packge
+
+org.springframework.boot.autoconfigure.condition
+interface Condition 接口 判断Bean 是否注册Factory
+	matches 判断Bean 是否满足 ConditionContext , AnnotatedTypeMetadata 配置数据 
+
+ConfigurationCondition 继承Condition 细粒度的控制。 configuration 不同状态
+	ConfigurationPhrase : 1 PARSE_CONFIGURATION class 不存在 不会 load @Configuration  2 REGISTER_BEAN 当前 All @configuration 被注册。
+
+@Conditional value 对应的Condition 的实现, 判定Bean 是否满足注册条件
+	通过Condition 编程方式判定。 使用 1. @Component @Configuration 注解 2 自定义注解 3 函数级别@Bean 定义
+
+AnnotatedTypeMetadata 
+	MethodMetadata AnnotationMetadata 注解方式配置类型
+
+@ConditionOnClass @ConditionalOnMissingClass
+	classpath 是否包含 value(class) 判定注解。 
+
+OnClassCondition AutoConfigurationImportFilter 校验class 是否存在
+	AutoConfigurationImportFilter 自动引入的Configuration class 判定Condition， （demo, class 存在的条件 ， 添加某个 Configuration配置Class 文件）
+		启动了连个线程 判定Configuration是否要映入
+	GetOutcomesThread 线程执行 outcomes 判断是否存在 
+		ClassLoader 去load 对应的Class ClassNotFoundException 跑出异常，class not found （同事对应 ConditionOnClass ConditionOnMissingClass 配置方式）
+
+@ConditionOnBean @ConditionOnMissingBean @ConditionalOnSingleCandidate(容器执行一个多个， 指定Bean 的类型)
+	判断Bean class or name 是否Load 到了BeanFactory 中(!! 推荐 仅仅 在 auto-class 加上该注解. 如果在 Bean 上加，当前Condition 确保在 another auto-configuration 后)
+	ConfigurationPhrase register_bean 阶段 ，所有的configuration loaded
+
+@ConditionalOnCloudPlatform OnCloudPlatformCondition cloudPlatform 判断校验 env 参数配置校验。
+
+@ConditionalOnExpression SPEL condition 通过SPEL 表达是判断是否存在 BeanExpressionResolver（TODO check SPEL　表达式的存在方式）
+
+ConditionalOnJava java version 启动判定 java 的版本配置
+
+ConditionalOnJndi j2ee 规范， 
+
+OnWebApplicationCondition 注解 @ConditionalOnNotWebApplication @ConditionalOnWebApplication 不同的情况 执行是否Web 环境配置
+	GenericWebApplicationContext 判定当前ApplicationContext 的环境判定， 
+
+@ConditionalOnProperty @ConditionalOnResource 判定Resource， Properties 存在条件
+
+
+	abstract class SpringBootCondition spring boot 帮用户定义Classes 是否Load
+		getMatchOutcome 抽象 子类判定， AnnotatedTypeMetadata 数据类型是否 满足。 结果 ConditionOutcome 满足条件
+		提供Matcher 判断配置操作
+
+ConditionEvaluationReport bean 记录评估 Condition bean 配置生成的细节 （TODO）
+ConditionMessage 流方式 构建 Condition 结果信息
+
+  
