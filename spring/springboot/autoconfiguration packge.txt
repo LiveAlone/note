@@ -2,7 +2,7 @@
 
 autoconfiguration packge
 
-org.springframework.boot.autoconfigure.condition
+1 org.springframework.boot.autoconfigure.condition
 interface Condition 接口 判断Bean 是否注册Factory
 	matches 判断Bean 是否满足 ConditionContext , AnnotatedTypeMetadata 配置数据 
 
@@ -49,4 +49,46 @@ OnWebApplicationCondition 注解 @ConditionalOnNotWebApplication @ConditionalOnW
 ConditionEvaluationReport bean 记录评估 Condition bean 配置生成的细节 （TODO）
 ConditionMessage 流方式 构建 Condition 结果信息
 
-  
+ AbstractNestedCondition 内嵌的Condition 条件判断方式， 多条件的Nested 的判定方式。
+	MemberOutcomes 多个Condition 结果判定。 
+	MemberConditions 不同的Metadata 配置注解类型， 对应的MemberOutcomes 输出结果信息。
+		ConditionClass 中 包含 多个 static class, 对应的注解配置信息， 获取Member Class 配置信息。 校验MemberClass 注解配置成功失败。
+	MemberMatchOutcomes memberClass 中包含多个Condition Class 判断， 记录成功失败的结果配置信息。
+	getFinalMatchOutcome 该类的抽象函数， class 包含MemberClass 判定 最终的 Condition
+
+	子类 AllNestedConditions， AnyNestedCondition， NoneNestedConditions all many none 的判定条件。
+
+BeanTypeRegistry beanFactiory 对应的注册 Type 对应的功能性扩充。
+	获取对应的 注解， Class 对应的 Bean的 类型。
+
+ConditionEvaluationReportAutoConfigurationImportListener condition report event 监听
+
+SearchStratage 搜索配置策略：
+	current 当前的Context,  ANCESTORS， ALL 当前 + ancestors
+
+
+2 org.springframework.boot.autoconfigure 基础的配置信息：
+
+@AutoConfigurationPackage 注解该包 包含Configuration 应当生成Bean的 配置方式
+	BasePackages 需要扫描的 package 课程包内容。	PackageImport 通过Metadata 获取Class 对应的Package 数据包下的内容。
+ImportBeanDefinitionRegistrar 添加用户自定义的Bean的 配置信息
+
+@AutoConfigurationMetadata  配置文件 获取 MetadataAuto Configuration 的配置信息。
+AutoConfigurationMetadataLoader 在 META-INF/spring-autoconfigure-metadata.properties 配置文件中 Class 对应的属性读取， 查看。
+
+AutoConfigureAfter ， AutoConfigureBefore，AutoConfigureOrder， 在 @EnableAutoConfiguration 配置上建立 解析的依赖配置方式。
+	AutoConfigurationSorter 排序 有@EnableAutoConfiguration注解的 配置Bean， 通过 上面三个 注解进行排序
+
+@EnableAutoConfiguration spring application 注入你需要的 Bean 的配置信息。
+	加载注解 当前包 root 下的bean 配置信息， 
+
+3. spring 包 基础配置
+	spring.factories 对应spring 制动配置bean Configuration 路径信息
+	spring-autoconfiguration-metadata.properties 对应配置信息
+
+4. admin mail mobile 提供不同的 Configuration 配置信息， 配置对应的数据源
+	定义不同的Condition 对应的判定条件
+
+
+
+
