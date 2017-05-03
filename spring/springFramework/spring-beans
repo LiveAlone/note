@@ -1,0 +1,14 @@
+spring-beans bean 加载配置方式
+
+基础接口配置定义
+1 TypeConvertDelegate spring 类型转换的委托Class
+	
+
+
+
+1 beans.annotation.AnnotationBeanUtils 通过Annotation 配置的Bean 的工具
+	copyPropertiesToBean 拷贝 properties 对应的 Bean， 出去 excludeProperties 配置属性
+	见 BeanWrapper 
+
+
+
