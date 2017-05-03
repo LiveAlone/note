@@ -1,0 +1,48 @@
+spring-context
+org.springframework.context 对应环境配置， 不同环境启动方式配置。
+
+ApplicationContext 一个应用的统一对外配置方式。 ApplicationContext App 运行的时刻只读， 也许 实现支持 reload 方式修改。
+	提供的功能： 
+	1. BeanFactory 获取应用的Component, 扩展接口 ListableBeanFactory 接口
+	2. 集成 ResourceLoader, 提供Load 资源的配置方式。
+	3. 可以Publish 事件， 继承了， ApplicationEventPublisher 实现了事件的发布方式。	
+	4. 继承了 MessageSource 对应的国际化的配置方式。
+	5. 集成了parentContext 内容，父级的Context 是有优先权的。因此 在Servlet 中， 每个Servlet 可以有各自的Context 配置信息。
+
+	处理提供BeanFactory 生命周期的控制， 同时执行 对应的 ApplicationContextAware, ResourceLoaderAware, ApplicationEventPublishAware, MessageSourceAware 
+	getParent() 获取父级的 ApplicationContext, 默认父级有先。
+	getAutowireCapableBeanFactory（） 提供 AutowireCapableBeanFactory 通过外部Application 创建执行的Bean。
+
+ConfigurableApplicationContext applicationContexnt 的实现， 大部分的ApplicationContexnt 的实现方式，提供基础的实现方式。
+	实现 Lifecycle, Closable 对于客户端代码只读， 控制启动的配置流程。 提供 Refresh() bean 的刷新配置方式。
+
+WebApplicationContexnt webApplicationContext, 提供 getServletContext() 获取ServletContext , 每个ServletContext 可以有各自的Context配置方式。
+	会执行 ServletContextAware 获取对应的 ServletContext 信息添加对应的配置。
+
+ConfigurableWebApplicationContext 扩展了 WebApplicationContext 和 ConfigurableApplicationContext 的配置方式
+	设置不同的 Namespace, 不同的LocationConfig 配置方式。
+
+@Aware 希望 Spring 容器的初始化的时候， 可以通知对应的Bean
+	对应的 XXXXAwareProcessor 处理不同的 Aware 条件的判断方式。
+
+ApplicatonContextAware 对应ApplicationContext 对应的回掉接口。
+
+ApplicationContextInitializer<C extends ConfigurableApplicationContext> spring 的 ConfigurableApplicationContext 在 调用refresh() 之前的初始化操作。
+	一些 启动前的初始化， demo 一些资源的加载， 激活对应的 Profile 配置。 例如 Ordered 对应的Instance 的排序操作方式。
+
+ApplicationEventPublisher 发布ApplicationEvent 被 ApplicationContext 的内容继承。
+	
+ApplicationEventPublisherAware 希望被 Notify 当
+
+ApplicationListener 监听ApplicationEvent 事件信息。
+
+EmbeddedValueResolverAware SpringValueResolver 对应的 提醒
+	
+EnvironmentAware 环境通知。 ResourceLoaderAware
+
+MessageSource 国际化配置， Locale java 地区配置方式， 转换方式。
+	MessageSourceAware， HierarchicalMessageSource (message source 的 继承关系)， MessageSourceResolvable（适应MessageSource）
+
+Lifecycle 容器的启动停止周期。 LifecycleProcessor 提供生命周期操作。
+
+SmartLifecycle 判定 Bean 在Refresh 这个生命周期是否 应该， 加载。 Load 的配置方式。
