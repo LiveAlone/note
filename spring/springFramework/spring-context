@@ -1,5 +1,6 @@
 spring-context
-org.springframework.context 对应环境配置， 不同环境启动方式配置。
+
+1 org.springframework.context 对应环境配置， 不同环境启动方式配置。
 
 ApplicationContext 一个应用的统一对外配置方式。 ApplicationContext App 运行的时刻只读， 也许 实现支持 reload 方式修改。
 	提供的功能： 
@@ -46,3 +47,46 @@ MessageSource 国际化配置， Locale java 地区配置方式， 转换方式�
 Lifecycle 容器的启动停止周期。 LifecycleProcessor 提供生命周期操作。
 
 SmartLifecycle 判定 Bean 在Refresh 这个生命周期是否 应该， 加载。 Load 的配置方式。
+
+
+2 org.springframework.context.annotation 配置方式：
+
+AnnotationConfigRegistry 统一的接口， RegisterBean 配置注册Bean,  scan(String ... packages) 添加扫描的Pacakge 配置。
+
+@Bean 添加一个Spring 容器管理的Bean, 类似 XML bean 的 定义配置方式， 
+	name 默认 函数的名 bean的 名称， 可以指定多个Bean的Name 的配置方式。
+	Scope DependsOn Primary lazy 不同的配置依赖方式。 @Configuraion 配置， 通过Cglib 对应的 函数调用 相同的Bean 配置。
+
+@ComponenScan 加载 Package 下的Bean 配置信息，定义扫描Component, 没有指定Package, 默认 当前Package 扫描路径。
+	通过 AnnotationConfigApplicationContext 处理 对应注解配置 
+
+
+@ComponentScans 多个 ComponentScan 配置， 过滤。
+@Condition 对应 Annotation type 配置， 判定Matches 。
+@Conditional 注解 在 @Configuration @Bean @Component 注解配置。
+
+ConditionContext conditions 对应的注册上下文
+
+@Configuration 类似XML 的配置方式， 执行Bean 的生成配置方式。
+	@ComponentScan 扫描对应 package 路径。@PropertiesSource（path） 对应的路径配置方式。
+	@Import 引入对应Configuration， 可以通过构造函数， inject 对应的Bean配置。
+	@ImportResource（xml path）获取XmlBean 配置。
+	内嵌 Configuration 配置方式， 通过@Inject 的配置方式。
+
+ConfigurationCondition bean 解析阶段， Bean 注册阶段。
+@DependsOn bean 的创建依赖
+@Description bean 创建描述信息。
+@EnableAspectJAutoProxy 指定代理的配置方式。
+
+@EnableLoadTimeWeaving 启动Load Class 代码配置处理方式。
+	LoadTimeWeaving 含义： 
+		java 切面植入方式： 1 编译植入切面(特殊编译器)， 
+			2 类加载植入切面(class load 二进制class 文件) 
+			3 运行通过 CGLIB 工具， jdk 代理， 运行植入
+	AspectJ 通过 编译 类加载 方式植入 1 特殊编译器 2 LTW 类加载植入方式。
+
+@EnableMBeanExport 配置启动 MBean 方式，JMX bean 的配置实现方式。
+
+@Import @ImportAware @ImportResource @ImportRegister 不同的注册配置方式，
+
+Event对应的时间 Event 配置信息。 EventListener 事件监听的配置方式。
