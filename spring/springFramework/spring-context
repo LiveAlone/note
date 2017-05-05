@@ -96,5 +96,11 @@ ApplicationEventMulticaster 管理一些 ApplicationListener， 多事件发布�
 	表示一个method 事件监听函数，设置监听事件的类型， 必须ApplicationEvent 的子类型。EventListenerMethodProcessor 注册配置对应的事件类型。
 
 EventListenerFactory 接口用来注册 注解@EventListener 生成ApplicationListener 监听配置方式。
-
 GenericApplicationListener（4.2） SmartApplicationListener 任务监听内容扩展， 监听事件类型
+
+4. Cache 缓存信息配置
+Cache 通用的Spring 缓存接口。
+CacheManager spring 缓存Manger Center
+@Caching 通过 注解方式， 缓存Value
+
+5 datetime 日期的格式化， 支持 Joda 的依赖操作, 
