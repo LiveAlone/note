@@ -89,4 +89,12 @@ ConfigurationCondition bean 解析阶段， Bean 注册阶段。
 
 @Import @ImportAware @ImportResource @ImportRegister 不同的注册配置方式，
 
-Event对应的时间 Event 配置信息。 EventListener 事件监听的配置方式。
+Event对应的时间 Event 配置信息。 
+ApplicationEventMulticaster 管理一些 ApplicationListener， 多事件发布。 
+
+@EventListener 事件监听的配置方式。
+	表示一个method 事件监听函数，设置监听事件的类型， 必须ApplicationEvent 的子类型。EventListenerMethodProcessor 注册配置对应的事件类型。
+
+EventListenerFactory 接口用来注册 注解@EventListener 生成ApplicationListener 监听配置方式。
+
+GenericApplicationListener（4.2） SmartApplicationListener 任务监听内容扩展， 监听事件类型
