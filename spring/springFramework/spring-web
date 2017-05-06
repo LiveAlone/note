@@ -1,0 +1,81 @@
+spring-web 基础配置方式：
+
+javax.servlet.ServletContext 每个 Web Application 每个 JVM 配置方式， 
+	spring boot, tomcat 不同的配置实习方式，
+
+WebApplicationInitializer 对应的 ServletContext 配置方式， 类似Web.xml 配置， 初始化 ServletContext 配置信息。
+	传统通过 Web 的Xml 配置 spring 启动方式
+		<servlet>
+		  <servlet-name>dispatcher</servlet-name>
+		  <servlet-class>
+		    org.springframework.web.servlet.DispatcherServlet
+		  </servlet-class>
+		  <init-param>
+		    <param-name>contextConfigLocation</param-name>
+		    <param-value>/WEB-INF/spring/dispatcher-config.xml</param-value>
+		  </init-param>
+		  <load-on-startup>1</load-on-startup>
+		</servlet>
+		<servlet-mapping>
+		  <servlet-name>dispatcher</servlet-name>
+		  <url-pattern>/</url-pattern>
+		</servlet-mapping>
+	通过代码配置方式： 添加 servlet context 配置信息。
+    public void onStartup(ServletContext container) {
+      XmlWebApplicationContext appContext = new XmlWebApplicationContext();
+      appContext.setConfigLocation("/WEB-INF/spring/dispatcher-config.xml");
+      ServletRegistration.Dynamic dispatcher =
+        container.addServlet("dispatcher", new DispatcherServlet(appContext));
+      dispatcher.setLoadOnStartup(1);
+      dispatcher.addMapping("/");
+    }
+    通过 扩展 AbstractDispatcherServletInitializer 方式配置， 简化初始化 ServletContext 配置方式。
+    Servlet 3.0 添加 addServlet , 意味着 DispatcherServlet 可以类似 Object 注册到ApplicationContext 的 环境中。
+    Servlet3.0 同时 初始化 init-params, context-params 配置方式。web.xml 完全被 WebApplicationInitializer 代替操作。
+    类似的配置代码：
+    public void onStartup(ServletContext container) {
+      // Create the 'root' Spring application context
+      AnnotationConfigWebApplicationContext rootContext =
+        new AnnotationConfigWebApplicationContext();
+      rootContext.register(AppConfig.class);
+
+      // Manage the lifecycle of the root application context
+      container.addListener(new ContextLoaderListener(rootContext));
+
+      // Create the dispatcher servlet's Spring application context
+      AnnotationConfigWebApplicationContext dispatcherContext =
+        new AnnotationConfigWebApplicationContext();
+      dispatcherContext.register(DispatcherConfig.class);
+
+      // Register and map the dispatcher servlet
+      ServletRegistration.Dynamic dispatcher =
+        container.addServlet("dispatcher", new DispatcherServlet(dispatcherContext));
+      dispatcher.setLoadOnStartup(1);
+      dispatcher.addMapping("/");
+    }
+
+HttpRequestHandler web request 对应的配置处理请求方式：
+	处理 HttpServletRequest, HttpServletResponse 对应的 请求处理方式。
+
+SpringServletContainerInitializer
+	spring 配置多个， WebApplicationInitializer 多个启动初始化 容器配置方式，
+
+MultipartFile web 上传文件接口，
+HttpConvert 对应 不同的Message 数据类型的Convert 配置装换方式。
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

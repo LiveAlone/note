@@ -4,9 +4,6 @@ spring-beans bean 加载配置方式
 TypeConvertDelegate spring 类型转换的委托Class
 
 ProperttValues 对应PropertyValue 多个 配置类
-
-
-
 	
 beans.annotation.AnnotationBeanUtils 通过Annotation 配置的Bean 的工具
 	copyPropertiesToBean 拷贝 properties 对应的 Bean， 出去 excludeProperties 配置属性
