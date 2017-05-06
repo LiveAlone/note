@@ -90,3 +90,77 @@ ConfigurationCondition bean 解析阶段， Bean 注册阶段。
 @Import @ImportAware @ImportResource @ImportRegister 不同的注册配置方式，
 
 Event对应的时间 Event 配置信息。 EventListener 事件监听的配置方式。
+
+
+3 ApplicationContext 对应的App 单个实现方式。
+	EnvironmentCapable, ListableBeanFactory, HierarchicalBeanFactory,
+		MessageSource, ApplicationEventPublisher, ResourcePatternResolver(获取对应的环境配置， Classpath:* 的配置文件)
+
+    ConfigurableApplicationContext 配置 AppContext, 
+
+AbstractApplicationContext 
+	基础环境配置， 
+	自动注册 Bean BeanFactoryPostProcessor， BeanPostProcessor， ApplicationListener bean类型。
+	ApplicationEventMulticaster context 事件管理配置。
+	关键 refresh () 刷新BeanFactory 配置方式。
+		1 prepareRefresh() 预备执行Context，设置Date, 激活Active，启动properties, 
+		2 obtainFreshBeanFactory 告诉 SubClass 刷新BeanFactory, 获取BeanFactory
+		3 prepareBeanFactory(beanFactory) 初始化 一些Bean 对应当前的Context
+		3 postProcessBeanFactory  子类修改机会， Bean 的定义解析完成 没有Instanace 在Container 中。
+		4 invokeBeanFactoryPostProcessors(beanFactory) 执行 FactoryProcessor 去注册对应的Bean
+		5 registerBeanPostProcessors(beanFactory) 
+		6 initMessageSource() 初始化 MessageResource  7 initApplicationEventMulticaster() 初始化 Event 分发。
+		8 onRefresh() 刷新bean 
+		9 registerListeners 注册对应的Listener 
+		10 finishBeanFactoryInitialization（beanFactory） 初始化non-lazy-init 初始化Bean
+		11 finishRefresh（） 启动LifeProcessor 配置
+
+		异常信息 情况： destroyBeans（） cancelRefresh 
+
+		final执行 resetCommonCache 信息。
+
+不同的 ApplicationContext， XmlApplicationContext AnnotationApplication 不同的Reader Writer 的读写方式。
+	不同的Application 配置支持方式。
+
+Spring 事件配置消息：
+ApplicationEvent spring 事件Bean 基础Class 扩展EventObject
+
+ApplicationEventPublisher 事件发送接口
+
+ApplicationListener 监听ApplicationEvent事件
+
+ApplicationEventPublisherAware 
+	接受PublishEventAware 接口。
+
+ApplicationEventMulticaster event Publish 发送接口配置。 批量Event 发送方式。
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
