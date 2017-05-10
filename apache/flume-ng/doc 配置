@@ -1,0 +1,9 @@
+doc 配置
+distributed, reliable, and available service 
+flume 分布 高可用， 数据的收集移动配置。数据Steam 流收集处理。
+http://flume.apache.org/_images/DevGuide_image00.png
+
+use 配置使用
+Flume 通过string 数据流装换方式。 source -> channel -> sink
+source 通过事件的方式， flume 收集日志配置信息。
+
