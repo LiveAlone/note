@@ -1,0 +1,50 @@
+tourial 配置github 列表：https://github.com/rabbitmq/rabbitmq-tutorials/tree/master/java
+
+rmq message 中间件 配置
+P Producing 消息产生者。 
+Q Queue 消息发送接口队列，rmq 存储内部， 支持多个 P C 发送监听操作。
+C Consuming 队列消息Received 信息。
+
+1 basic
+消息发送 ConnectionFactory -> 获取 Connection  -> 获取Channel 申明队列名称 -> 发送队列信息。
+接受消息 ConnectionFactory -> 获取Connection -> 获取Channel 申明队列 -> Consumer 添加消费者
+
+2 work queue: 分发Time-Comsumer任务， 多个Work方式。
+P 产生Message， 分发不同的Consumer 方式。 round-robin 方式分发。
+	autoAck 设置 ，worker 执行失败的时候， 发放其他的Worker 实现。 (consumer捕获异常，回调)
+
+message durability 
+设置队列 durable = true 消息Comsumer 处理完成， 不会丢失Message。
+
+3 pub/sub 日志，消息分发配置方式。
+message 分发多个 Comsumer 方式。
+core: rabbit P 发送消息， 不会有一个默认存储进入一个 Queue， message 会发送到一个 Exchange 。
+Exchange 接受 Message 来自 P， 同时 判断 Queue 接受的Message 添加到那个队列， 或者丢弃。
+
+exchange 可用类型， direct, topic, headers and fanout。 
+	fanout 发送所有 exchange 知道绑定的队列。 （上面不声明情况，使用默认的Exchange， 发送到指定的队列中）
+
+
+temporary queue：默认　P 通过Exchange 发送到指定的队列中。 C 指定监听的队列，监听对应的Message 消息信息。
+	可以系统申明一个Queue， 断开Comsumer 时候 自动删除Queue 队列。
+
+Bindings exchange 绑定Queue 
+	通过有个Exchange 绑定多个 queue 队列， 消息通过Exchange 发送多个Queue 中。
+	Consumer together， 消费 多个队列内容。 channel 通过 Exchange 获取对应的队列名称， 绑定对应的队列， 执行监听操作。
+
+
+4 Routing 消息路由监听方式。 监听Message 的部分消息（感觉消息的过滤方式）
+	绑定对应的Exchange 指定对应的路由， 上面 fanout 默认忽略这个消息。 （type=direct） DirectExchange 配置方式。
+	DirectExchange 通过不同的路由发送不同的 queue 消息队列， 实现消息的分类。
+	Multiple bindings 一个消息同一个 路由类型， 绑定不同的队列，
+	（发送方指定路由配置， 接受指定对应的监听路由配置方式 ）
+
+5 topic exchange 交换类型， 类似 direct 的交换类型， topic 可以通过定义 正则表达式方式， 分发消息。 225 byte route key配置。
+	* one word, # 多个word,
+
+(! 接受方定义 Exchange 对应的过滤类型， 发送方只要指定对应的Exchange 配置类型)
+
+6 RPC rabbitmq 远程调用配置：
+	配置回调队列， 消息发送， 获取消息处理结果信息。 每个Client 一个queue？
+	Correlation Id　（Response 多个Client 对应过多） 每个request 生成一个对应的 correlationId 
+	request 包含 reply_to=response队列， correlation_id 对应判定客户端返回relation
