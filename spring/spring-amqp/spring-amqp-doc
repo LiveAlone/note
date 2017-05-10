@@ -1,0 +1,38 @@
+AMQP 消息系统的配置解决，Template 抽象接受，发送消息。类似JMS 消息操作。
+
+AMQP Advanced Message Queuing Protocol 高级消息队列协议。
+
+Spring AMQP　关键接口，配置方式。
+package 依赖 spring-amqp amqp.core 定义对应AMQP model。 目的统一抽象模型 不仅仅依赖AMQP 消息队列。
+	spring-rabbit 对应实现 amqp 抽象模型。仅仅RabbitMq 的实现方式。不同的实现 apache qpid 方式。
+	AMQP 在协议层面的， 进行一下操作。 rabbitmq 对 AMQP 的支持， 当前支持rabbitmq 其他实现为支持。
+
+Message 消息体, 消息体 byte 数据配置类型。 MessageProperties 消息的属性。
+Exchange 消息发送target， 每个 Exchange 有一个 virtual host 配置。
+	ExchangeType 对应的 Direct,Topic,Fanout,Headers 不同类型。 表示 如何绑定 Queue 方式。（direct routeKey， topic * # 配置方式， Fanout 全部发送）
+Queue 接收消息的 队列抽象信息。 name, durable, exclusive, autoDelete 
+Binding 绑定 exchange 对应的队列
+
+AmqpTemplate 高级 消息发送配置，设置Queue队里
+实现方式RabbitTemplate 配置方式。
+
+------------------------------------------------------------------------------------------------------------------------------------
+
+spring-rabbit 仅仅一种实现方式， 实现 spring-amqp
+rabbit.ConnectionFactory 提供 rabbit.Connection, 对 com.rabbit.client.Connection 的封装操作。 
+	实现bean CachingConnectionFactory, 提供单一的Connection， 缓存Channel， 基于是否一个 Transaction 中。可以设置 host pass, user password. 同事可以设置 ChannelSize 配置。
+		Connection Channels 被Cache 缓存。ConnectionLimit 限制Connection 的数量。
+		（CacheMode 1 channels 单个Connection 多个 Channel 2 Connection 基于Connection 的缓存方式）
+
+rabbitmq-client 对于多个Connection， 设置执行的线程的数量。设置Executors 设置。
+
+Cache 的数量， 超过Cache channel 的数量， 会自动关闭剩余的 Channel 。
+	多线程的条件， 可能造成 Channel 的频繁关闭。 控制，使用的Channel 并发使用的线程的数量。
+	CacheChannel 的数量最大， 会线程阻塞， 等待可用线程 或 timeOut 时间。 设置Exchage, Route 配置方式。
+
+Container 容器， 监听Rabbitmq 事件消息信息。
+
+
+SpringContainer 通过注解方式， 监听对应的消息队里方式。
+
+
