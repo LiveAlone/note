@@ -1,0 +1,5 @@
+rabbit mq 配置
+1 多个Consumer 监听一个 Queue, rabbitmq 会随机的发送给 一个Consumer 消费。
+    没有根据 Received 的状态， 就是轮询的方式。
+
+2 通过RouteKey 方式执行Direct 请求方式。

@@ -1,0 +1,62 @@
+spring-amqp-source 配置
+定义 amqp 基本的含义定义方式。
+
+org.springframework.amqp.core 核心 amqp 基本的定义方式。
+1 AmqpAdmin amqp 基础的操作， > 0.8 版本操作。
+	申明Exchange， Queue， 基础操作， 申明Bind 基本操作。获取队列Properties 属性。
+
+RabbitManagementTemplate 管理Operations 基本操作方式。
+
+2 Declarable 在 Amqp 初始化的时候, 继承可以自动声明。
+	
+	Exchange 交换申明， ExchangeTypes 类型， drubale, autodelete, delayed 等信息。
+
+	AbstractDeclarable
+		基础功能抽象实现。
+		Queue 基础 Name， druable, exclusice autodelete 基础配置方式。
+			UniquelyNamedQueue 生成一个UUID 命名的队列。
+			AnonymousQueue 匿名队列，  non-druable, exclusive, auto-delete 队列属性。
+		Bind 绑定 Type: Queue Exchange 方式。 指定RouteKey, auguments 参数配置信息。
+
+	AbstractExchange 实现 exchange， AbstractDeclarable。 提供基础的 name, durable, autdelete 基础Exchange 属性， interal(!! exchange 内部Flag 配置)
+		DirectExchange, FanoutExchange, TopicExchange, HeaderExchange 交换方式， CustomerExchange 用户自定义 Exchange 配置方式。
+
+3 AmqpTemplate amqp 基础操作集合配置 send receive 消息集合。
+	可以执行MessageConverter， 讲Object 转圜Message 配置。
+
+5 MessageListener 监听消息， 异步的发送Message
+
+6 MessagePostProcessor Template 发送消息时候， MessageConvert 将Object 装换MessageConvert， 该地方对Message 进一步处理 设置Header， Properties, Message 内容压缩等操作。
+	AbstractDecompressingPostProcessor gzip unzip 不同的解压方式。
+	AbstractCompressingPostProcessor gzip unzip 不同的压缩方式。
+	CorrelationAwareMessagePostProcessor Correlation 方式数据装换
+
+
+7 ReceiveAndReplyCallback -> ReceiveAndReplyMessageCallback 消息接受 回调方式。 template 中 receiveAndReply 操作方式。
+
+8 ClassMapper 接受Message 通过 MessageProperties 信息， 映射对应的 Message Body Class 内容。
+	Jackson2JavaTypeMapper
+	JavaTypeMapper
+	（jackson 对应的数据类型转换方式）
+
+9 AmqpHeaderMapper （spring-message 消息配置） 
+
+10 ConditionalExceptionLogger 异常日志信息记录
+
+11 ConsumerTagStrategy 设置ConsumerTag 配置信息。
+
+扩展Class 的配置定义
+1 AbstractBuilder ExchangeBuilder，QueueBuilder
+	队列， Exchange 对应构建方式。
+
+2 AcknowledgeMode ack Type 类型，
+	none 不通知类型。 MANUAL 手动回调方式。 AUTO 自动执行。
+
+3 Address Message 消息发送的地址配置，Reply 消息接受回馈的Exchange 地址信息。
+
+4 MessageDeliveryMode 是否持久化判定方式。
+
+5 Message 消息体内容： byte[] body 数据内容。
+	设置消息体的格式， messageId, 时间戳，业务关联Id, replyTo 回复mq 信息。  内容编码，内容格式 consumerTag consumerQueue， 目标 Method Object 等配置信息。
+
+

@@ -1,0 +1,16 @@
+spring-rabbit-source 配置
+
+Annotation 声明配置：
+@Argument 声明队列 Queues 参数 name-value
+@EnableRabbit ApplicationConfiguration 注解配置。
+	配置 RabbitListenerContainerFactory 去 创建 MessageListenerContainer
+		实现bean SimpleRabbitListenerContainerFactory， 
+
+@RabbitListener 注解方式， 声明 queue 数据处理方法
+    @RabbitListener(containerFactory="myRabbitListenerContainerFactory", queues="myQueue")
+    public void process(String msg) {
+        // process incoming message
+    }
+@RabbitListenerConfigure @Exchange
+
+在 @EnableRabbit 的时候，自动加载 @RabbitListener 监听的方式。
