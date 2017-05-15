@@ -1,0 +1,5 @@
+java 日志文件配置方式：
+
+java.util.logging.Filter
+	handler 配置 LogRecord， 判断日志 是否 记录 或者 丢弃。
+
