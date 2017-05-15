@@ -12,5 +12,10 @@ Annotation 声明配置：
         // process incoming message
     }
 @RabbitListenerConfigure @Exchange
-
 在 @EnableRabbit 的时候，自动加载 @RabbitListener 监听的方式。
+
+-------------------------------------------------------------
+
+配置Listener 配置实现方式：
+
+
