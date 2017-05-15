@@ -1,0 +1,72 @@
+common-log 配置方式
+
+避免系统对 Log 的强依赖， 如 Log4j1 log4j2 jdkLoggin logback deng等日志框架。
+面向接口编程， 而不是 面向实现编程方式。
+就是 apache-common logger 和 Self4j 的想法。
+
+命名方式 java-util-logging jul 方式
+apache commons-logging  -> jcl
+
+不同的日志框架之间的集成方式：
+1 commons logger 方式：
+	LogFactory 实现方式 LogFactoryImpl (默认) 
+	Log 的实现方式 jdk4Logger, Log4jLogger, SimpleLog 不同的实现方式。
+
+	commons-logging
+	1 LogFactory 获取途径： 
+		1 System.getProperty("org.apache.commons.logging.LogFactory") 属性获取
+		2 META-INF/services/org.apache.commons.logging.LogFactory 搜索Jar 包含的， 确认LogFactory 实现方式
+		3 common-logging.properties 配置文件， org.apache.commons.logging.LogFactory 读取属性值。
+		4 如果还是没有的话， org.apache.commons.logging.impl.LogFactoryImpl 默认的实现方式。
+	2 LogFactory 获取对应的 Logger 不同的实现方式
+		1 commons-logging.properties 获取对应的属性名称。
+		2 System.getProperty("org.apache.commons.logging.Log"); 系统属性方式， 获取日志格式。
+		3 还没有， ClassToDiscover 发现方式：
+			private static final String[] classesToDiscover = {
+				"org.apache.commons.logging.impl.Log4JLogger",
+				"org.apache.commons.logging.impl.Jdk14Logger",
+				"org.apache.commons.logging.impl.Jdk13LumberjackLogger",
+				"org.apache.commons.logging.impl.SimpleLog"
+				};
+
+2 commons-logging 与 jul 集成配置方式
+	仅仅依赖 common-logging 方式， LogFactory 默认的实现方式。
+	默认Discover 方式， 实现JDK 的依赖方式。
+
+3 commons-logging 与 log4j1 的集成方式。
+	解析方式， common-logging 方式， 1 LogFactoryImpl 默认实现方式
+		2. 与上 jcl 一样， classToDiscover 方式， 获取 Log4j1 方式。
+	具体实现方式：
+		1 先创建 org.apache.commons.logging.impl.Log4JLogger 方式
+		2 如果此时 有Log4j 创建， Log4jLogger 代理方式。 执行实现。
+
+4 commons-logging 与 log4j2 集成方式
+	依赖： 依赖 log4j2 。 同时 依赖 log4j-jcl 集成包。
+	可以到 Log4j2 并没有代理的实现方式
+	解析实现方式：
+		1. META-INF/services/org.apache.commons.logging.LogFactory 对应的文件 实现方式。 
+			common 生成LoggerFactory 时候， org.apache.logging.log4j.jcl.LogFactoryImpl 生成 jcl 下 的LoggerFactory
+		2. 通过LoggerFacotryImpl 生成对应的 self4j2 的Logger 的实现方式。 将 Log4j1 代理 对应的 Log4j2 的实现。
+
+5. commons-logging 集成对应的 logback 方式。
+	不必依赖 commons-logging 包， 需要依赖 jdc-over-self4j 即可 （奇怪！！）
+	logback 默认绑定 self4j 的方式， 需要两部：
+		1 先将 commons-logging 底层log 转向 self4j
+		2 通过Self4j 选择日志的实现方式。
+
+	jcl-over-self4j 的实现方式：
+		1 META-INF/services/org.apache.commons.logging.LogFactory  对应的 org.apache.commons.logging.impl.SLF4JLogFactory factory 实现方式。
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,26 @@
+self4j simple logging facade for java 的实现
+
+self4j 是日志的 Facade 接口， 不同的实现方式。
+	Facade：门面，更底层一点说就是接
+	slf4j入口就是众多接口的集合，他不负责具体的日志实现，只在编译时负责寻找合适的日志系统进行绑定
+
+	对应依赖图片：
+	https://static.oschina.net/uploads/img/201510/22140403_4grr.png
+
+	self4j 依赖 log4j 的配置方式
+	https://static.oschina.net/uploads/img/201510/14110454_811B.png
+
+	基础实现方式：
+	1 slf4j-api作为日志接入的接口
+	2 compile时slf4j-api public final class LoggerFactor类 
+		private final static void bind() 方法会寻找具体的日志实现类绑定，
+		主要通过StaticLoggerBinder.getSingleton();语句调用
+
+	3 slf4j-log4j12:链接slf4j-api和log4j中间的适配器。
+		它实现了slf4j-api中StaticLoggerBinder接口，从而使得在编译时绑定的是slf4j-log4j12的getSingleton()方法
+	
+	4 log4j:这个是具体的日志系统。通过slf4j-log4j12初始化Log4j
+
+	实现：
+	1 slf4j 集成 log4j 相同的包实现 StaticLoggerBinder 配置方式。
+
