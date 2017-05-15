@@ -1,0 +1,66 @@
+不同项目的Log 日志系统的配置实现方式。
+日志系统 自带 logging，log4j1、log4j2、logback (日志框架)
+日志统一框架 ： Apache common-logging,  slf4j  （统一的框架）
+
+日志包集成如下：
+1 log4j、log4j-api、log4j-core
+2 log4j-1.2-api、log4j-jcl、log4j-slf4j-impl、log4j-jul
+3 logback-core、logback-classic、logback-access
+4 commons-logging
+5 slf4j-api、slf4j-log4j12、slf4j-simple、jcl-over-slf4j、slf4j-jdk14、log4j-over-slf4j、slf4j-jcl
+
+-----------------------------------------------------------------------------------------------------------
+
+1 jdk Logging 配置方式。 java.util.logging.Logger 日志使用Class
+	LogManager 使用 配置文件 JAVA_HOME/jre/lib/logging.properties 对应的配置文件修改。
+
+2 log4j1 配置文件的加载方式。
+	log4j1 配置文件位置 /preperties/log4j.properties 配置方式。
+-----------------------------------------------------------------------------------------------------------
+log4j1 获取Logger 的配置原理：
+1 没有指定配置文件的情况
+	1 LoggerManager 初始化
+	2 初始化一个 logger 的 Hierarchy 仓库。 static {} 静态方法， 初始化Hierarchy仓库。
+	3 获取 Log4j.properties Log4j.xml 日志配置文件。
+	4 解析配置文件，xml .log4j.xml.DOMConfigurator 解析， properties 文件 log4j.PropertyConfigurator 解析。
+		解析结果 ：1 设置RootLogger 的级别， 2 Appender 获取日志指定输出路径。
+	5 就绪后， 使用Logger Hierarchy 工厂创建Logger。
+
+2 手动配置文件加载方式， PropertyConfigurator.configure（URL） 方式加载
+	Hierarchy 默认Debug 级别， 解析Url 配置文件， 初始化Logger。 调用 getLogger不会初始化。
+
+3 配置文件 类路径下。 手动 PropertyConfigurator 加载
+	会有覆盖的方式， 最后一次的执行的为准。
+
+** 对象 **
+	LoggerManager 创建 logger 仓库 Hierarchy， 尝试 配置文件解析。
+	Hierarchy ： 1 LoggerFactory logger 工厂创建 2 HashTable 存放创建Logger 3 Logger root logger 配置文件解析结果。
+-----------------------------------------------------------------------------------------------------------
+
+3 log4j2 门面充当
+	log4j2-api 统一日志接口， lgo4j2-core 核心接口日志框架实现。
+	Logger 在 Log4j2 配置接口方式, log4j1 实现类配置。
+
+配置过程：
+	1 尝试从jar中寻找log4j2.component.properties文件 获取对应的LoggerContextFactory.
+	2 没有 查找 META-INF/log4j-provider.properties 配置文件， 获取对应的LoggerContextFactory
+	3 还是没有 使用 SimpleLoggerContextFactory
+	4 LoggerContextFactory 获取LogContext 配置信息。
+	5 LoggerContext 获取Logger 配置信息
+		1 判断初始化， 初始化
+		2 获取插件 YamlConfigurationFactory、 JsonConfigurationFactory、XmlConfigurationFactory
+		3 解析 log4j2.xml 
+		4 初始化LogContext 后 执行。
+** 类执行方式 **
+LoggerManager 查找 LoggerContextFactory 接口实现。
+LoggerContextFactory 获取对应的LogContext 日志环境
+PropertyConfigurator 解析 log4j.properties 文件。
+LoggerContext 缓存对应的 Logger 日志配置文件。
+ConfigurationFactory 配置文件解析器： json, yaml, xml 解析不同文件方式。
+
+4 logback 配置
+	官方集成 self4j 配置方式， Logback 配置文件的集成。
+** class analyse **
+StaticLoggerBinder 创建LoggerFactory 配置实例。
+通过LoggerFactory 创建LoggerContext 配置信息。 创建对应的LoggerCache，集成 self4j 对上 Application。
+
