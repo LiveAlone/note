@@ -1,0 +1,2 @@
+不同日志切换方式：
+当前 不同的日志 切换方式， Logger java-log, logback, log4j 代码依赖不同的切换方式。
