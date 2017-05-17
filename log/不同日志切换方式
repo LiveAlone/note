@@ -1,2 +1,7 @@
 不同日志切换方式：
-当前 不同的日志 切换方式， Logger java-log, logback, log4j 代码依赖不同的切换方式。
+1 当前 不同的日志 切换方式， Logger java-log, logback, log4j 代码依赖不同的切换方式。
+
+2 spring starter logging 日志的依赖方式
+	以slf4j 向上接口， 实现支持 log4j, logback, jul, jcl 不同的日志依赖实现方式。
+
+3  
