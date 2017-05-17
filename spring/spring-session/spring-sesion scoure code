@@ -18,6 +18,19 @@ spring-sesion scoure code
 		初始化 通过 JedisConnectionFactory， redis 链接， Session的数据 配置获取。
 		@Schedule 方式配置 定时任务， 执行Session 消息的清空操作。
 
+	GemFire Session (GemFire 增强版的Redis)
+		基于分布式的 Redis 缓存的配置方式。
+	Hazelcast 不同级别的缓存方式。
+	
+	org.springframework.session.jdbc.JdbcOperationsSessionRepository.JdbcSession 
+		JDBC Session 的缓存配置方式
+
+
 2 SessionRepository session 仓库管理方式。
 	提供Session 的 CRUD 方式。
 
+	1 org.springframework.session.MapSessionRepository 
+		MapSession 通过Map 方式创建Session
+
+	2 FindByIndexNameSessionRepository 通过 principal name 方式， 获取对应的 Session Map 方式。
+		JDBC Session, Mongo , Hazelcast, redis gemfire 不同的Session Repository 方式。
