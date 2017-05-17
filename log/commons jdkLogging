@@ -1,0 +1,44 @@
+commong-logging 对应的配置方式，Adapt 方式 ， 适配不同的日志方式。
+
+JDK Logging 配置方式：
+1. Logger 
+	1 java logging 模块的代言
+		Logger.getLogger("com.aaa.bbb");获得一个logger，然后使用logger做日志的输出
+	2 logger 作为一个逻辑管理单元， 依赖 LoggerManager 类。
+		Logger 输入日志， 会Handler 方式执行。
+	3 logger 层次关系， 子logger通常会从父logger继承logger级别、handler、ResourceBundle名(与国际化信息有关)等
+	4 JVM会存在一个名称为空的root logger，所有匿名的logger都会把root logger作为其父
+
+2 LogManager 日志缓存管理， HashTable 缓存方式。
+
+3. Handler 多个不同的输出方式
+
+4. Formatter 输出如期的格式化方式。
+
+5 Logger Level 日志级别的配置方式。
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

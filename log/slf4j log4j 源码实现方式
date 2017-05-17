@@ -1,0 +1,29 @@
+slf4j log4j 源码实现方式
+
+Log 加载的两个阶段：
+	1 LoggerFactory 获取过程，Logger 的生产工厂
+	2 根据 LoggerFactory 生产 Logger 配置方式
+
+1 LoggerFactory 创建过程
+	1 StaticLoggerBinder 静态日志绑定方式， 多个multiple self4j 绑定时候，
+	2 随机选取 一个 StaticLoggerBinder 绑定操作。
+	3 根据 上面， 返回一个 ILoggerFactory 单例。
+2 根据 ILoggerFactory 获取， 对应的Logger.
+
+Log4j 功能：
+	控制台、文件、GUI组件、甚至是套接口服务器、NT的事件记录器、UNIX Syslog守护进程等；用户也可以控制每一条日志的输出格式
+	根据 上面的 Self4j 获取 ILoggerFactory ， 获取对应的Logger 方式。
+
+
+Slf4j 初始化： 类是上面的初始化过程配置方式。
+
+Log4j 初始化： Log4jLoggerFactory 代码静态初始化， 
+	log4j LogManager 初始化配置：
+		static 模块初始化， 
+	获取Logger 日志 层级， 解析 Xml 对应的配置文件。
+
+Log4j 日志输出：
+	Category 日志 输出不同的 Appender, 处理方式。
+	Filter 过滤日志， 判断日志是否丢弃。  格式化 日志， 输入对应日志的结果。
+
+
