@@ -34,3 +34,33 @@ spring-sesion scoure code
 
 	2 FindByIndexNameSessionRepository 通过 principal name 方式， 获取对应的 Session Map 方式。
 		JDBC Session, Mongo , Hazelcast, redis gemfire 不同的Session Repository 方式。
+
+3 web http session 的配置方式。
+	1 org.springframework.session.config.annotation.web.http.EnableSpringHttpSession
+		通过 @EnableSpringHttpSession 配置HttpSession 配置方式。
+			Configuration 中配置 sessionRepository bean 的方式。
+	2  定时过期Session 的继承创建方式。
+
+4 SessionEvent 不同的SessionEvent 的创建配置方式。
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,8 @@
+spring doc
+spring session 提供用户Session的基础配置信息
+
+简介：
+    1 提供用户可以管理的Session
+    2 集成方式 HttpSession, 集群Session， 多Session管理，RESTFUL API 提供Session的管理方式。
+    3 WebSocket 方式， 接受WebSocket message 的Session的配置方式。
+    
