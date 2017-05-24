@@ -1,0 +1,33 @@
+server less 基础概念定义：
+不同的平台定义：
+	1 Iaas (Infrastructure-as-a-Service) 硬件基础服务平台的定制。 Amason ES2, Vmvare 等平台。
+	2 Paas (Platform-as-a-Service) 基础平台服务。 虚拟机， 平台。 云平台的定义。 Hive hadoop 等
+	3 Saas (Software-as-a-Service) Netflex 基础软件的配置。 Https Web2.0 等。
+
+ServerLess Google 的基础项目配置：
+	1 aws lambda, 项目，一种计算资源方式，类似Paas 的一种服务方式。不用担心资源的配置方式。
+	2 提供的基础概念： 
+		1 Baas (backend as a service) 实现的逻辑状态的管理方式。 文件数据的管理，消息的推送，数据分析等。
+			基于 Pass Sass 的 中间产物（可提交用户定制代码， 文件上传， 下载等）。 Fass 逻辑应用实现， 无状态容器，事件触发， 短暂 第三方的管理方式。
+			用户仅仅关心自己的代码实现方式。
+
+		2 Faas (Functions as a service) 
+			完全的无状态， 代码的管理方式。Amazon Lambda，Azure Function，Google Cloud Functions
+
+优势：
+	低成本： 用户可以公用 网路，硬盘，CPU 等资源。 通过访问次数，来收费。  减少了机器的空闲方式。
+	简化设备运维： 第三方定义的API 减少运维方式。
+	提升可维护性： 低成本开发， 安全， 可用， 
+	更快的开发速度： 运维硬件部署， 不需要考虑， 仅仅考虑， 减少资金的投入等。
+缺点：
+	运营商的绑定： aws lanbda,  对运营商的依赖， 造成， 运营商的变动， 影响客户的代码迁移。  （解决：公用平台接口的规范化）
+	面对突发场景： 场景： 每个公司可能有高流量并发的情况， 每天 %0.1 的时间。  但是设备只能最高的。  浪费。 SererLess 定制化的方式。
+
+
+面服务器的方式：
+	1 AWS Lambda 支持 java python, node.js 等配置方式。
+	2 Google Cloud Functions google 的基础服务配置平台。
+
+
+
+
