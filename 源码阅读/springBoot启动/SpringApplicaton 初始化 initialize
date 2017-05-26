@@ -28,7 +28,7 @@ AutoConfigurationReportLoggingInitializer
 
 2 加载不同 spring.factories 下 ApplicationListener
 
-springboot 
+SpringBoot 数据包
 ClearCachesApplicationListener
 	ApplicationContext 加载过程， analyse Bean 会缓存 Method, field 等字段。
 	 1 清除 ReflectionUtils 的工具
@@ -75,5 +75,29 @@ BackgroundPreinitializer
 	Validation.byDefaultProvider().configure()
 	DefaultFormattingConversionService
 
-
 ApplicationEventListener 监听不同的 ApplicationEvent 实现方式。
+
+---------------------------------------------------------------------------------------------------------------
+
+SpringApplication 构造函数完成：
+1 source 的配置添加
+2 webEnvoirment 的 配置。
+3 ApplicationContextInitializer 获取不同的spring.factory 启动回掉接口。
+4 ApplicationListener 获取启动监听的配置
+5 获取 main 执行的 SpringApplication 的Class 路径。
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

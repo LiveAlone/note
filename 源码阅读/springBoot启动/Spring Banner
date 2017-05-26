@@ -1,0 +1,22 @@
+Spring Banner 实现
+
+Banner 接口 
+	Banner 函数: 1 envoirment spring 的环境配置 2 sourceClass main 启动的Class 3 PrintSteam 流输出 Banner
+	Banner Mode ： OFF banner 不输出， CONSOLE 控制台输出， LOG 日志输出。
+
+对应实现方式：
+	SpringBootBanner spring 标准的 banner 输出。
+	ResourceBanner file resource 文件内容输出。
+	ImageBanner 图片 Banner ， java.awt 的支出输出。
+
+SpringApplicationBannerPrinter SpringApplication 使用的输出工具类
+	private Class:  
+		1 Banners springAplication 多个Banner 配置输出
+		2 PrintedBanner 指定同一个 sourceClass, 输出不同的Banner
+	指定 Log, Steam 的 Banner 的配置输出流目的。
+
+Banner 的指定方式：
+	1 输出 Banner 的内容， printBanner 
+	2 banner 注册到 BeanFactory 中。
+
+
