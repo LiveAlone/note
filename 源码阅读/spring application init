@@ -51,9 +51,35 @@ SpringApplication run 启动配置：
 	2 获取 SpringApplicationRunListener， boot 中单个实现 EventPublishingRunListener
 	3 通过 SpringApplicationRunListeners 监听多个 SpringApplicationRunListener， 下面的 Spring run 启动的过程中， 执行 
 		starting, environmentPrepared, contextPrepared, contextLoaded, finished 等。
-	4 
-
-
+	4 初始化 ApplicationArguments 对应实现 DefaultApplicationArguments 的配置
+		SpringApplication 对应的参数实现方式。 
+		SourceArgs 参数， optionasName 参数， optionArgs, optionValues 的参数配置。
+		（Spring Core 的参数配置 SimpleCommandLinePropertySource）
+	5 prepareEnvoirment 环境配置准备。
+		1 web环境启动： StandardServletEnviroment  默认环境启动： StandardEnviroment 环境。
+		2 configure 配置Env 环境信息
+			配置当前的 Application 的不同的 PropertySource 的信息， 合并， 移除， 排序的操作
+			添加当前 环境Env 的 Profile， Env 环境Profile, ApplicationContext 的Profile。
+		3 通知上面的Listener 环境 Prepare 完成了。
+		4 listener 还会判定 当前 Env 是不是 web 环境。 envoirment 进行装换。
+	6 通过 SpringApplicationBannerPrinter 获取Banner 横幅的输出。
+	7 创建ApplicationContext 的配置， 
+		web 环境： AnnotationConfigEmbeddedWebApplicationContext
+		非 web 环境：AnnotationConfigApplicationContext　（支持注解的环境配置）
+	8 FailureAnalyzers 创建 FailureAnalysisReporter 执行分析失败情况下异常。
+	9 prepareContext 
+		1 设置 Environment 环境配置
+		2 postProcessApplicationContext 添加对应的Resource 配置。
+		3 ApplicationContextInitializer ApplicationContext 创建以后， 执行回调接口配置。
+		4 执行Listener 监听。
+		5 记录Log日志内容
+		6 createBean: springApplicationArguments, springBootBanner 
+		7 load Resource 加载资源配置。创建BeanDefinition Loader 加载。
+	10 refresh context 核心刷新Bean
+	11 afterRefresh bean 创建之后操作：
+		1 ApplicationRunner， CommandLineRunner 的 Bean 实现的创建
+		2 执行创建的 Runner
+	12 完成 返回Context 内容
 
 
 

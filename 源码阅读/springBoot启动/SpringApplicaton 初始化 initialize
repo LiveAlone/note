@@ -1,0 +1,79 @@
+SpringApplicaton 初始化 initialize(source)
+
+1 spring.factories 定义不同的 ApplicationContextInitializer SpringContext 的回调接口：
+	SpringApplication 定义了获取
+
+SpringBoot 包下：
+ConfigurationWarningsApplicationContextInitializer
+	warn common mistake configuration 配置信息。
+
+ContextIdApplicationContextInitializer
+	设置ApplicationContext Id ,通过 "spring.application.name" , "vcap.application.name", "spring.config.name"
+	设置Bean的 ApplicationId
+
+DelegatingApplicationContextInitializer
+	获取其他 用户自定义的 Initializer 配置信息
+	context.initializer.classes 属性配置，
+
+ServerPortInfoApplicationContextInitializer
+	设置默认的Port 监听位置， 监听端口号。
+
+springBoot AutoConfiguration 目录下：
+SharedMetadataReaderFactoryContextInitializer
+	通过创建一个 CachingMetadataReaderFactory 在 SpringBoot, 和 ConfigurationClassPostProcessor
+
+AutoConfigurationReportLoggingInitializer
+	回去配置日志文件的 启动方式
+
+
+2 加载不同 spring.factories 下 ApplicationListener
+
+springboot 
+ClearCachesApplicationListener
+	ApplicationContext 加载过程， analyse Bean 会缓存 Method, field 等字段。
+	 1 清除 ReflectionUtils 的工具
+	 2 执行 当前线程 父线程的 ClearCache
+
+ParentContextCloserApplicationListener
+	监听 当Parent 的Content 关闭， 子 ApplicationContext 也会关闭操作。
+
+FileEncodingApplicationListener
+	当 文件的编码 不匹配监听。
+
+AnsiOutputApplicationListener
+	spring.output.ansi 依赖配置。
+	终端支持 ansi 支持彩色效果输出。
+
+ConfigFileApplicationListener
+	EnvironmentPostProcessor 的实现， 
+	加载配置文件 ： 默认 application.properties application.yml
+	加载位置 classpath: classpath:config, file: file:/config
+	加载不同的 Profile 下的配置文件。
+	制定： spring.config.location 配置文件的路径。
+	通过SpringApplication 制定： properties 属性。
+
+
+DelegatingApplicationListener
+	发现 配置下， context.listener.classes 其他的 ApplicationListener
+
+
+LiquibaseServiceLocatorApplicationListener
+	外部数据 插件配置方式。
+
+ClasspathLoggingApplicationListener
+	log 记录当前 的Classpath 的配置
+
+LoggingApplicationListener
+	配置日志系统， 当前的日志级别。
+
+2. springBoot autoconfiguration 
+	
+BackgroundPreinitializer
+	多线程 初始化一些工具
+	AllEncompassingFormHttpMessageConverter
+	MBeanFactory
+	Validation.byDefaultProvider().configure()
+	DefaultFormattingConversionService
+
+
+ApplicationEventListener 监听不同的 ApplicationEvent 实现方式。
