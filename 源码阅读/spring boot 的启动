@@ -1,0 +1,118 @@
+spring boot 的启动加载方式
+
+SpringApplicationBuilder 去构建 SpringApplication 的实体类配置方式：
+	通过 Google Fluent 的配置方式。
+	指定对应的 等级结构 hierarchy。
+	定义Bean ：
+		SpringApplication 对应springApp 的定义方式。
+		SpringApplicationBuilder 对应parent 的构建方式， configuredAsChild 是否子Builder 层级结构。
+		AtomicBoolean 原子的running 定义当前App 运行状态。
+		ConfigurableApplicationContext， ConfigurableEnvironment， 执行环境上下文， 配置环境。
+		Sources 手动指定 Configuraiotn1 配置信息。
+		DefaultProperties 默认属性配置
+		additionalProfiles 添加 profile 的配置信息。
+		registerShutdownHookApplied 是否ShutdownHook 接口。
+
+	方法：
+
+
+org.springframework.context.ApplicationContextInitializer
+	App 启动回掉接口。
+
+SpringApplication main 函数 启动Spring App 的初始化，执行步骤
+	1 创建 ApplicationContext 
+	2 注册 CommandLinePropertySource 配置commandline 的参数 为 Spring Properties 的信息。
+	3 refresh 刷新 ApplicationContext， loading singleton beans
+	4 执行 CommandLine bean 命令行配置
+
+	SpringApplication 不同的 Resource 读取Bean 
+	1 AnnotationBeanDefinitionReader 读取
+	2 XmlBeanDefinitionReader 或 GroovyBeanDefinitionReader 
+	3 ClassPathBeanDefinitionScanner java 数据包扫描。
+
+	定义Bean：
+		默认 AnnotationConfigApplicationContext 
+
+	构建方法：
+		initialize 启动 source 方法。
+			1 判定WebEnvir 环境配置。 
+			2 获取 不同的 包下的 spring.factories 属性配置。
+
+------------------------------------------------------------------------------------------------------------------
+
+Spring Application 启动过程：
+SpringApplication 初始化：
+	1 run 启动不同的Package spring.factories 的 Bean ApplicationContextInitializer
+	2 启动 spring.factories 的 ApplicationListener 启动配置。
+	3 获取Main 函数的配置。
+
+SpringApplication run 启动配置：
+	1 设置 resource 对应的App 配置信息。
+	2 获取 SpringApplicationRunListener， boot 中单个实现 EventPublishingRunListener
+	3 通过 SpringApplicationRunListeners 监听多个 SpringApplicationRunListener， 下面的 Spring run 启动的过程中， 执行 
+		starting, environmentPrepared, contextPrepared, contextLoaded, finished 等。
+	4 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
