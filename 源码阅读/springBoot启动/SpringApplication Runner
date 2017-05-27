@@ -1,0 +1,12 @@
+SpringApplication Runner
+
+1 SpringApplicationRunListener 注意 监听SpringApplication run 方法的执行过程。
+	监听过程： starting : runner 方法首次执行。 environmentPrepared:环境Prepare 准备。 contextPrepared, 
+		contextLoaded： refresh context 环境之后。  finished完成 runner 方法之后。
+
+2 SpringApplicationRunListeners springApplicationRunners 定义的一个Invoker 执行
+	管理 SpringApplicationRunListener 
+	log 日志通过 apache common 的日志管理
+
+3 SpringApplication Runner 执行过程 获取 SpringApplicationRunListener
+	实现 ：EventPublishingRunListener 	
