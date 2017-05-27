@@ -1,0 +1,24 @@
+envoirment config
+
+接口配置：
+PropertyResolver 属性接口配置。
+	Envoirment  获取不同的Profile 执行属性
+		ConfigurableEnvoirment porfile 配置设置， 配置操作属性的配置。 
+			ConfigurableWebEnvironment init web ServletContext ServletConfig 的配置的初始化操作。
+
+AbstractEnvironment 环境的抽象实现
+
+StandardEnvironment 通用的环境配置信息
+StandardServletEnvironment 通用Web 环境的Envd的配置环境。
+
+--------------
+Envoirment 
+1 prepare操作 
+	1 创建ConfigurationEnvoirment 环境配置
+	2 args 参数初始化 Envoirment 环境变量
+	3 listener 监听 Envoirment 初始化操作
+	4 Env 设置ApplicationContext 配置， ApplicationContext 管理Env 对应的参数配置。
+
+
+
+

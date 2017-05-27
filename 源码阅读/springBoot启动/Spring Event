@@ -1,3 +1,24 @@
 Spring Event 事件发送配置：
 
+java.util.EventObject 所有的 event, 有一个 Object 类型的 source, 
+
+org.springframework.context.ApplicationEvent spring 定义的系统事件， 统一Spring 的事件发放。
+	添加了 timestamp 标识。
+
+SpringApplicationEvent 监听Springboot 对应的事件信息， 抽象Class
+	source: ApplicationContext,  timestamp 当前时间信息。
+
+
+1 appkication 时间发送的 配置。
+ApplicationStartingEvent env 初始化之前。
+	ApplicationStartedEvent
+ApplicationEnvironmentPreparedEvent SpringApplication 启动， Envoirment 配置以获取。
+ApplicationPreparedEvent applicationContext 已经Prepared 但是没有 refreshed
+ApplicationReadyEvent springApp 已经准备 接受request response 的配置信息。
+ApplicationFailedEvent springApplication 启动失败，有异常信息。
+
+
+ApplicationEventMulticaster 实现 管理 批量的 ApplicationListener 
+	委托 发送  ApplicationEvent 消息内容。
+	
 

@@ -1,0 +1,9 @@
+ApplicationContext 环境加载：
+	
+ApplicationContext 接口， 集成 EnvironmentCapable，ApplicationEventPublisher， ResourcePatternResolver（通过Location 加载数据表），]
+	ListableBeanFactory, HierarchicalBeanFactory 工厂的继承关系。
+
+
+
+继承配置方式
+
