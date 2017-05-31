@@ -76,6 +76,7 @@ SpringApplication run 启动配置：
 		6 createBean: springApplicationArguments, springBootBanner 
 		7 load Resource 加载资源配置。创建BeanDefinition Loader 加载。
 	10 refresh context 核心刷新Bean
+		刷新BeanFactory, 加载Loader 对应的Bean 配置。
 	11 afterRefresh bean 创建之后操作：
 		1 ApplicationRunner， CommandLineRunner 的 Bean 实现的创建
 		2 执行创建的 Runner

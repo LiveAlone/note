@@ -2,7 +2,44 @@ BeanFactory definition
 
 interface definition:
 
-BeanFactory spring bean 定义获取对象
+BeanFactory spring bean 定义获取对象,  定义对应对象的作用域， Session Request等配置。 
+	读取不同的Bean的 配置方式（XML DB, LDAP , profile 等配置信息） 所有在ListableBeanFactory中定义的方法， 如果继承了HierarchicalBeanFactory都会校验ParentBeanFActory 对应的配置信息。
+	
 	HierarchicalBeanFactory beanFactory 继承关系， Parent 加载方式
 
+		ConfigurableBeanFactory 提供 Bean 基础Util .
+			接口添加 ClassLoader ParentFactory, boolean cacheMetadata  配置， 注册Alias, destory bean 的配置方式。
+
+	ListableBeanFactory 获当前BeanFactory 对应的 BeanDefinition 数量， 获取Annotation 的配置。
+
+	AutowireCapableBeanFactory 对于 存在 Bean， 暴露注册的接口， 通过 Class, Object 注册指定 BeanName 的配置。
+
+
+		ConfigurableListableBeanFactory 继承 ListableBeanFactory, AutowireBeanFactory, ConfigurableBeanFactory 接口
+			设置IgnoreDependencyInterface 接口， 忽略对应的Autowire. 获取 BeanDefinition, clear cache 定义缓存配置。
+
+Class:
+ 	DefaultListableBeanFactory Spring 默认BeanDefinition 的实现方式
+
+---
+Metadata对应的Bean的数据配置
+
+1 AnnotatedTypeMetadata 注解的属性接口
+	获取注解的 Map<String, Object> 的属性配置，isAnnotation(name) 是否Annotation 的注解配置。
+
+2 ClassMetadata 获取Bean Class 对应的注解信息
+	className, isInterface, isAnnotation, isAbstract, 等 Class 的基础配置信息。
+
+	3 AnnotationMetadata 集成 ClassMetadata, AnnotationMetadata, 
+		获取不同的 AnnotationMetadata 的配置信息。
+
+----
+Bean Definition 对应的定义方式
+
+4 BeanDefinition 定义对应的Bean 的配置属性
+	定义Bean 的Name, Scope, 延迟启动， 依赖加载方式。
+
+	5 AnnotatedBeanDefinition 对于注解的 BeanDefinition， 获取对应 AnnotationMetadata。
+
+Class Bean Definition 对应的不同的配置实现方式。
 
