@@ -3,7 +3,43 @@ ApplicationContext 环境加载：
 ApplicationContext 接口， 集成 EnvironmentCapable，ApplicationEventPublisher， ResourcePatternResolver（通过Location 加载数据表），]
 	ListableBeanFactory, HierarchicalBeanFactory 工厂的继承关系。
 
-
-
 继承配置方式
+ApplicationContext
+	1 ConfigurableApplicationContext 
+		addBeanFactoryPostProcessor 添加Bean 工厂的 定义方式， refresh 之前定义
+		addApplicationListener 添加Application Litener
+		addProtocolResolver 添加资源的解析config
+	2 WebApplicationContext 获取 ServletContext 的 配置
+	3 ConfigurableWebApplicationContext 
+		设置 ServletConfig 配置， 设置namespace 配置，  添加ConfigLocation 配置。
 
+abstract class 配置定义：
+	1 StubWebApplicationContext： stub 对应 webApplicationContext 配置。 简单 Bean 注册查找， lookup BeanFactory
+
+	2 AbstractApplicationContext 对应ApplicationContext 基础实现方式。
+		实现 bean 的 Refresh 的基础配置过程。
+
+		3 AbstractRefreshableApplicationContext 提供了BeanFactory 的Refresh 基础过程。 
+			抽象BeanFactory 的创建， Load 过程 子类实现方式。
+
+			4 AbstractRefreshableConfigApplicationContext 添加对应的Location 地址， handle Location 
+				子类实现 XmlApplicationContexnt ClasspathXmlApplicationContexnt 等
+
+				5 AbstractXmlApplicationContext xml 的定义解析， 通过 XmlBeanDefinitionReader 解析读取XML 获取对应的Bean 的配置。
+					实现包括: FileSystemXmlApplicationContext, ClassPathXmlApplicationContext 对应的读取防方式。
+
+			6 AbstractRefreshableWebApplicationContext 
+				添加 Web ServeletContext 配置信息， 子类实现 对应的 LoadBean Definitions 信息
+
+				7 XmlWebApplicationContext， GroovyWebApplicationContext， AnnotationConfigWebApplicationContext
+					不同的Load Beans 的定义方式
+
+	8 GenericWebApplicationContext hold singleton DefaultListableBeanFactory 实例， 对应的BeanDefinitionRegistry 实现方式
+		用来注册不同的BeanDefinitionFactory 通过 Handling ApplicationContextAware, BeanFactoryPostProcessor （spring boot 的添加实现方式TODO）
+
+		9 GenericWebApplicationContext 适应Web 的环境
+
+			10 EmbeddedWebApplicationContext 注册Servlet Filter web 环境的Bean 的配置方式。
+
+				11 AnnotationConfigEmbeddedWebApplicationContext， XmlEmbeddedWebApplicationContext 
+					注解， Xml  的配置方式。

@@ -1,0 +1,8 @@
+BeanFactory definition
+
+interface definition:
+
+BeanFactory spring bean 定义获取对象
+	HierarchicalBeanFactory beanFactory 继承关系， Parent 加载方式
+
+
