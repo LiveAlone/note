@@ -1,1 +1,79 @@
 Spring Refresh Bean Factory
+refresh 对应 AnnotationConfigEmbeddedWebApplicationContext, 刷新。
+
+通过 AnnotationConfigEmbeddedWebApplicationContext demo 代码执行过程。
+
+AbstractApplicationContext refresh 刷新过程：
+1 prepareRefresh() 当前Context Refresh 前的准备。
+	1 初始化Envoirment 配置文件中的占位符。
+	2 校验 所有的 Properties 已经处理了。 
+	3 this.earlyApplicationEvents 收集所有的 早期的 ApplicationEvent 事件， 等待 multicaster 可用的时候， 发放对应的事件。
+
+2 obainFreshBeanFactory() 告诉子类 刷新 internal Bean Factory 内部的配置信息。
+	子类 refresh, 同事 获取对应的 DefaultListableBeanFactory 的配置信息。
+
+3 prepareBeanFactory 当前BeanFactory prepare , 当前Contet 准备。
+	1 BeanFactory 使用当前Context的 ClassLoader。 设置ExpressionResolver, 正则表达的处理方式。 添加PropertyEditorRegister 的注册配置。
+	2 设置 BeanFactory 当前环境回调 bean Class,  对于Bean 的加载， 解析， 回调接口。
+		1 ApplicationContextAwareProcessor（this）BeanPostProcessor（postProcessBeforeInitialization， postProcessAfterInitialization） 
+			用户通过这个接口， Bean 的加载， 
+	    2 忽略的Class EnvironmentAware, EmbeddedValueResolverAware, ResourceLoaderAware, 
+	    	ApplicationEventPublisherAware, MessageSourceAware, ApplicationContextAware
+	3 当前ApplicationContext 有了 BeanFactory, ResourceLoader, ApplicationEventPublisher, ApplicationContext 属性
+		向Spring 的BeanFactory 注册对应的Class.
+	4 注册 early post-processor, 发现内部的 ApplicationListeners
+	5 Detect a LoadTimeWeaver and prepare for weaving, if found
+	6 environment, systemProperties, systemEnvironment 获取对应的属性配置信息。
+
+--------------------------------------- 开始 Bean 的解析加载配置
+
+4 postProcessBeanFactory 子类 添加Process, 提供特殊的 Bean。
+	demo 在 Web 环境， EmbedWebApplicationContext 重写了该方法，  添加WebApplicationContextServletContextAwareProcessor 方法， 把当前ApplicationContext 的ApplicationContext 中的 ServletContext, ServletConfig 添加BeanFactory 中。
+
+5 执行 Post Processors， 其中加载AnnotationBean , xml 解析Bean的 配置获取等完成。
+	（TODO dep） beanFactory 已经有 对应的Bean的 定义配置方式。
+
+6 registerBeanPostProcessors 注册对应的 BeanPrecessor 去拦截 Bean的 创建。
+	beanFactory 获取 BeanPostProcessor (这个时候 BeanProcessor 还是一个普通的SpringBean) , 等待 获取排序后， 注册到BeanFactory中。
+
+7 initMessage 初始化 MessageSource 资源信息。
+	当前 SpringApplicationContext 设置当前的 MessageSource 的配置信息。
+
+8 initApplicationEventMulticaster 初始化 Event 批量发送方式Bean 用户自定义Bean 或者， 默认的Event multicaster bean 的配置方式。
+
+9 onRefresh() 子类事项特殊的Bean, 在特殊的SubClass 中。
+	demo : EmbeddedWebApplicationContext  会在子类 onRefresh 中 初始化 Servlet 容器的配置信息。
+		1 获取 EmbeddedServletContainer， ServletContext 
+		2 null 构造， 通过 EmbeddedServletContainerFactory 接口子类构造。 tomcatEmbeddedServletContainerFactory 默认Tomcat 的配置实现。
+		3 初始化Tomcat Embedder 容器， 监听端口配置。
+		4 通过ServletContext， ServletConfig 初始化对应的Env 的环境配置信息。
+
+10 registerListeners 检查 Listeners 并且注册他们。
+	1 注册已经有的ApplicationListener， 2 注册BeanFactory 中的 用户自定义的ApplicationListener 配置
+	3 publish 对应的 earlyEvent 完成的 初始化MultiEvent 的事件类型。
+
+
+11 finishBeanFactoryInitialization(beanFactory) 实例化对应的 （non-lazy-init） 的单例的Bean 配置信息。
+	1 conversion service (conversionService) bean 的注册
+	2 注册默认的 BeanPostResolver 的配置方式
+	3 注册 wearerAwareName 对应的配置方式。
+	4 freeze bean factory 已经缓存所有的 Bean的 metadata 内容， 不需要再添加了。
+	5 初始化non-lazy-init bean的 配置方式。
+
+12 finishRefresh() 最后发布事件消息。
+	1 初始化 DefaultLifecycleProcessor 
+	2 lifeprecessor 首次refresh 刷新操作方式。
+	3 发布事件 final event 的事件的配置方式。
+	4 Participate in LiveBeansView MBean, if active 
+		对应的 WebEmbedder 容器 super 之后， 执行了 startEmbbedContainer 容器的配置信息。
+
+
+beanFactory 的刷新配置完成了。
+
+
+
+
+
+
+
+
