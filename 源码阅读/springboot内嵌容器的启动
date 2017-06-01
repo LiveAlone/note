@@ -1,2 +1,27 @@
 SpringBoot 容器启动Web 的方式
 
+SpringBoot 项目包 添加了EmbeddedWebApplicationContexnt 的类实现，
+	subClass 实现， AnnotationConfigEnableWebApplicationContext, XmlEmbeddedWebApplicationContexnt 两种 web 容器环境配置。
+
+Tomcat 容器的初始化
+
+refreshBean 开始：
+	onRefresh AbstarctApplicationContext 中， 子类加载特定的类， 添加了EmbeddedWebApplicationContexnt 添加 执行 createEmbeddedServletContainer（）
+
+createEmbeddedServletContainer：
+	获取下面：
+	1 EmbeddedServletContainer spring boot embedd 中， 统一管理容器 start, stop, getPort， 对应Tomcat Jetty 实现。
+	2 ServletContext 获取 
+		EmbeddedServletContainerFactory 的实现类， Tomcat, Jetty 都实现这个 Factory 通过SpringBoot 的加载判定方式， 判定加载具体Class
+
+	3 通过 Embeded 方式， 获取容器， ！！ 这个时候 获取 Initializer 对应的启动配置， 对应的ServerContext Filter , port， path 等配添加。
+
+	4 finish 完成对应 TomcatContainer 容器的start , 完成Web 容器的启动。
+
+（之后加载 non-lazy-bean, Controller 配置加载）
+
+
+
+
+
+
