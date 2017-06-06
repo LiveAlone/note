@@ -1,0 +1,43 @@
+Executors:
+
+接口定义方式：
+Delayed 返回当前Object Delay 时间。
+Executor 任务提交的接口， 提交Runnable 的配置任务信息。
+	ExecutorService 服务池的控制， 提交任务， 返回Feature, 
+Feature 异步完成任务 ，返回结果， 判定是否完成， get result， 设置定时过期时间。
+Callable 回掉接口。
+RunnableFuture 线程监听任务的执行结果。
+ScheduledFuture 对应Schedule 的周期执行任务。
+ScheduledExecutorService 定时任务执行周期。
+RunnableScheduledFuture 定时任务Feature 结果。
+
+(!! CacheThreadPoolPool 创建的时候， 默认最多的线程Executors MAX_VALUE, 最好不要用， 一定注意最大线程的数量。)
+
+ThreadPoolExecutor 的 线程池的执行方式：
+	通过Executors Factory 创建线程池。
+	1 corePoolSize 核心线程的数量。
+	2 maxNumPoolSize 最大线程的数量。
+
+	通过 preStartCoreThread, preStartAllCoreThread 创建Task 线程创建方式。
+
+	线程默认的相同Pority 权限， 通过ThreadFactory 创建 具有 优先级的 线程的创建方式。
+
+	keep live time, 超过核心线程， 线程执行完成会等待， keep-live时间后， 自动销毁。
+
+	blockQueue 阻塞队列
+		1 如果线程 < coreThread ， 直接创建Thread
+		2 超过CoreSize放入队列中。
+		3 不能放入队列 ， 创建新线程  小于MaxNumThreadSize, 创建新线程。 
+
+	阻塞队列 3 中策略：
+		1 Direct handoffs 默认同步队列。maxNum 到达最大的时候， 不会创建线程， 放入同步队列中。
+		2 Unbounded queues,  LinkedBlockingQueue,  CorePoolSize 线程Busy, Task 会对应的线程等待。
+			（这个请求， 就是 顺序的请求）
+		3 Bounded queues 较长队列， small pool size， 减少线程的 CPU 的消耗。
+
+	线程拒绝接收Task,
+
+Executors 创建方式:
+	1 newCachedThreadPool coreSize:0, maxNumSize: MAXINT, 60s keepLive, 同步队列
+	2 newFixedThreadPool coreSize==MaxNumSize, 即使销毁的 线程。 0 keepLive
+	3 newScheduledThreadPool 定时任务执行， 线程。
