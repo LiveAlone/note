@@ -42,7 +42,6 @@
 - 实现Class：ClassRelativeResourceLoader　FileSystemResourceLoader　ServletContextResourceLoader，　不同环境Resource 配置方式。
 
 ## 通过Factory Processor 去获取执行Properties 配置信息 [链接](http://blog.csdn.net/dalinsi/article/details/53037957)
-
 - BeanFactoryPostProcessor bean 先执行的配置。
 - PropertyResourceConfigurer 
 - PropertiesLoaderSupport mergeProperties 合并配置文件
@@ -50,3 +49,19 @@
 - AbstractBeanFactory # resolveEmbeddedValue 解析占位符
 - DefaultListableBeanFactory #　resolveDependency　方法
 - AutowiredAnnotationBeanPostProcessor　属性自动注入
+
+## spring boot envoirment 的启动配置方式
+- prepareEnvoirment 环境的基础配置上使用。
+- 通过Event 方式， 通过Listener 方式， 添加配置文件的修改方式。
+```
+ConfigFileApplicationListener
+AnsiOutputApplicationListener
+LoggingApplicationListener
+ClasspathLoggingApplicationListener
+BackgroundPreinitializer
+DelegatingApplicationListener
+FileEncodingApplicationListener
+```
+- ConfigFileApplicationListener 加载对应的 spring.application 文件配置。 发布对应的事件 ：ApplicationEnvironmentPreparedEvent
+- PostProcessors 处理方式 执行环境配置。 ConfigFileApplicationListener 对应的 也是一个 Processor
+- listener addConfigurationProperties 函数添加 配置信息。 
