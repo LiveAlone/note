@@ -1,4 +1,5 @@
 # disconf 基础文档配置
+
 > 文档的基础内容， install 导入配置
 
 ## 目标
@@ -17,6 +18,7 @@
 ## install
 
 1. client install (maven 导入方式)
+
 ```java
 <dependency>
     <groupId>com.baidu.disconf</groupId>
@@ -24,9 +26,9 @@
     <version>2.6.36</version>
 </dependency>
 ```
-2. disconf web 安装方式
-    - SKIP
+
+1. disconf web 安装方式
 
 ## basic config
-1. 注解方式，Config 变化， 自动Reload, CallBack 回掉方式， 更新配置方式。
 
+1. 注解方式，Config 变化， 自动Reload, CallBack 回掉方式， 更新配置方式。
