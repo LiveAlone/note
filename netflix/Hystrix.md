@@ -14,6 +14,7 @@ Hystrix 提供 对于三方系统， Service, 3 party 库，的延时，容错�
   - 并行执行，同步请求Cache 配置
 
 ## dashboard 看板的方式 监控Hystrix 的执行方式
+
 看板 监控服务的状态
 
 ## Hystrix 的方式
@@ -61,7 +62,7 @@ Hystrix 提供 对于三方系统， Service, 3 party 库，的延时，容错�
 - 实现 流程图 ![flow chart](https://raw.githubusercontent.com/wiki/Netflix/Hystrix/images/hystrix-command-flow-chart.png)
 - Construct a HystrixCommand or HystrixObservableCommand Object
   - Command 构建Request的方式， 依赖方式。
-- Execute the Command 
+- Execute the Command
   - execute 执行 blocking 方式
   - queue 队列方式， 监听 single response
   - observe 订阅 Observer 复制 souce Observer
@@ -73,10 +74,12 @@ Hystrix 提供 对于三方系统， Service, 3 party 库，的延时，容错�
 - Get the Fallback
 - Return the Successful Response
 
-## circuit breaker 循环校验方式，validate success fail, 
+## circuit breaker 循环校验方式，validate success fail
+
 ![circuit breaker](https://raw.githubusercontent.com/wiki/Netflix/Hystrix/images/circuit-breaker-1280.png)
 
 ## 隔离方式
+
 - hystrix 隔离并行的查询方式 ![isolate](https://github.com/Netflix/Hystrix/wiki/images/soa-5-isolation-focused-640.png)
 - 不同 依Decy 默认线程池， 线程执行 查询依赖方式 ![thread pool](https://raw.githubusercontent.com/wiki/Netflix/Hystrix/images/request-example-with-latency-1280.png)
 - 通过线程池的方式， 保护线程失败方式。
