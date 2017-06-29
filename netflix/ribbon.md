@@ -6,4 +6,3 @@
 - 容错
 - 不同的通信协议的支持，交互Model
 - caching batching
-
