@@ -10,3 +10,4 @@
   - sr Server Received, 服务端接受处理请求， sr - cs = 网络延迟
   - ss Server Sent, 客户端返回的处理请求时间
   - cr Client Receiver 客户端接受请求的过程
+1. 通过 zipkin， 监控服务之间的调用关系。 必须相互调用成功。
