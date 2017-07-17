@@ -23,6 +23,11 @@
 - AutoConfigurationReportLoggingInitializer
   - 回去配置日志文件的 启动方式
 
+### initlize 执行时间
+
+- spring application prepareContext 会执行不同的 Initlizer
+- 通过 spring.factory 文件获取对应的Initlizer执行器
+
 ## 加载不同 spring.factories 下 ApplicationListener
 
 ### SpringBoot 数据包
@@ -64,13 +69,30 @@
 - BeanDefinitionRegistryPostProcessor 继承BeanFactoryPostProcessor
   - register furthe bean definition, before 继承BeanFactoryPostProcessor, 可以定义 BenFacotryPostProcessor
 
+### beanFacotory Processor
+
+- 添加位置
+  - initlizer 添加Porcessor
+    - ConfigurationWarningsPostProcessor 校验 definition 正确
+    - CachingMetadataReaderFactoryPostProcessor, 添加AnnotationProcessor, 添加ReadFacotory 的配置信息。
+  - listener 添加配置 PropertySourceOrderingPostProcessor
+    - env 中不同的 Resource 资源的配置添加
+
 ### BeanPostProcessor
 
 - ApplicationContextAwareProcessor 不同的Aware 注入定义
   - 同时 忽略Aware 的依赖注入
 - ApplicationListenerDetector 获取 ApplicationListener 实现Bean
 - WebApplicationContextServletContextAwareProcessor
+- ConfigurationClassPostProcessor 处理 @Configuration 注解的Class, @Bean 的注册的Bean 解析
 
+### PostProcessorRegistrationDelegate 执行BeanFactoryPostProcessor
 
-TODO： PostProcessorRegistrationDelegate 
-BeanFactory 创建， BeanFactoryPostProcessor, BeanPostProcessor 定义。
+- BeanFactoryProcessor 继承 register Processor,  before 预先执行
+- BeanFactory 创建， BeanFactoryPostProcessor, BeanPostProcessor 定义。
+- 执行ConfigurationClassPostProcessor, 加载对应的注册Class, 不同Config的Class
+- register BeanPostProcessor 定义
+- beanFactory 加载对应的Bean, no-lazy 启动, 这个时候 BeanPostProcessor 的已经定义添加了。
+> debug 调试, 执行完成BeanFacotoryPostProcessor 对应的Bean 已经注册了， 但是@Value @Autowire 这些注解并没有注入， 都是Null 的
+> ! 但是注意， 通过Xml ref 申明的依赖， spring boot, Bean直接调用的， 会注入Instance, 容易理解 Instance 内也是 空的。(所以会有循环依赖的情况)
+todo： bean internalBean 的 配置加载方式
