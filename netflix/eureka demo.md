@@ -21,7 +21,9 @@
 - 环境需求
   - jdk1.8 higher
   - tomcat 的配置方式 6.0
-- Eureka Server Client 的 服务客户端的配置方式 不同 properties 的属性配置方式
+- Eureka Server, 配置Eureka Client, 发现其他的Eureka Client 配置
+- eureka-server-{test,prod}.properties server 的配置文件
+- fulling boots up， 等待 ~3min, 完全启动 ```eureka.numberRegistrySyncRetries=0```
 
 ## eureka 构建配置方式
 

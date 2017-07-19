@@ -50,6 +50,8 @@ eureka 提供服务发现功能， 不限制 通信方式，可以通过 thrift,
 
 ## 集群高可用
 
+- eureka client 缓存的 Server 的信息， 即使 所有的Server shutdown, client 可以继续使用
+
 ## 不同的区域不可沟通的特性
 
 ## 监控
