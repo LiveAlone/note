@@ -1,6 +1,7 @@
 # Spring Cloud Config client
 
 ## spring cloud native
+
 - 提供 Spring-Common, Spring-Context 主要依赖
   - Spring-Context 提供（bootstrap context, encryption 加密，environment endpoints 监控节点）
   - Spring-Common 提供基础 抽象概念 （SpringCloudNetflix, SpringCloudConsul 的实现）
@@ -9,13 +10,14 @@
   - endPoint 公共的管理
   - 监控 Task
 
-### spring bootstrap application context 
+### spring bootstrap application context
+
 - 当前 ApplicationContext 创建 ParentApplicationContext, loading 外部的配置文件， 解密外部的配置文件
 - 连个 Context 共享 Envoirment, sub application 有更高的权限。
-- 通过 ``` spring.cloud.bootstrap.enabled=false ``` 启动关闭 spring.cloud 配置(ef: System Propreties 中添加)
+- 通过 ```spring.cloud.bootstrap.enabled=false``` 启动关闭 spring.cloud 配置(ef: System Propreties 中添加)
 - Application Context 的继承方式
   - 继承 Bootstrap Context， profile, property source, 
-  - 额外的 Property Source 
+  - 额外的 Property Source
     - "bootstrap", ```CompositePropertySource``` 有高的优先级, 如果有 ```PropertySourceLocators```
     - "applicationConfig" classpath:bootstrap.yml 由于 Parent , 优先级较低
   - 创建方式
@@ -27,7 +29,7 @@
   - 远程配置不允许被覆盖， 如果像远程的 属性可以被覆盖
     - 远程 config server 设置 ```pring.cloud.config.allowOverride=true```
     - 本地设置 ```spring.cloud.config.overrideNone=true``` 允许远程配置
-    - 只有 System properties, env vars,  ``` spring.cloud.config.overrideSystemProperties=false ``` 允许覆盖方式
+    - 只有 System properties, env vars,  ```spring.cloud.config.overrideSystemProperties=false``` 允许覆盖方式
 - 定制化 Bootstrap Configuration
   - 在 spring.factory 添加 ```org.springframework.cloud.bootstrap.BootstrapConfiguration``` 添加 @Configuration 配置 Class
   - bootstrapConfiguration 不要添加 ComponentScan 通过 SpringBootApplication 添加
@@ -36,6 +38,7 @@
 ### 定制化Bootstrap property sources
 
 - 定制化 ```PropertySourceLocator``` 继承，通过 bootstrap process添加外部的配置. spring.factory 添加
+
 ```java
 org.springframework.cloud.bootstrap.BootstrapConfiguration=sample.custom.CustomPropertySourceLocator
 ```
@@ -51,17 +54,21 @@ org.springframework.cloud.bootstrap.BootstrapConfiguration=sample.custom.CustomP
 - RefreshScope， refreshAll() 函数，/refresh 来刷新， 默认 延迟加载刷新
 
 ### Encryption and Decryption
+
 - environment  pre-processor 去 解密
 
-### endpoints 
+### endpoints
+
 - /env, @ConfigurationProperties Envoirment
 - /refresh @RefreshScope
 - /restart ApplicationContext restart
 - /pause /resume start或stop ApplicationContext
 
 ## spring cloud commons abstractions
+
 - @EnableDiscoveryClient eureka, consul, zookeeper 服务发现
 - ServiceRegistry
+
 ```java
 @Configuration
 @EnableDiscoveryClient(autoRegister=false)
@@ -79,8 +86,10 @@ public class MyConfiguration {
     }
 }
 ```
+
 - ServiceRegistry Auto-Registration ```@EnableDiscoveryClient(autoRegister=false)``` 自动注册的配置
 - Spring RestTemplate as a Load Balancer Client
+
 ```java
 @Configuration
 public class MyConfiguration {
@@ -102,6 +111,7 @@ public class MyClass {
     }
 }
 ```
+
 - Retrying Failed Requests
   - ```spring.cloud.loadbalancer.retry.enabled=false``` 通过 feigin, ribbon 配置
 - Ignore Network Interfaces
