@@ -54,3 +54,62 @@
   - ```com.netflix.eureka.registry.AbstractInstanceRegistry``` 发送 ```ConcurrentHashMap<String, Map<String, Lease<InstanceInfo>>>```
     - key: 对应服务名称。 value 对应InstanceId, InstanceInfo 的配置信息
 - eureka client 对应的 Spring.factory 的配置添加
+
+## eureka config 的配置文件
+![eureka 调用图](http://nobodyiam.com/images/2016-06-25/architecture-detail.png)
+
+### eureka server 实现方式
+
+- Register (租测 InstanaceInfo 同时 Peer Node 的节点信息注册)
+  - ```ApplicationResource``` Http 请求服务，```PeerAwareInstanceRegistryImpl``` 的 register 方法
+  - ```PeerAwareInstanceRegistryImpl``` 调用 ```replicateToPeer``` 同步不同节点的 信息
+  ![调用节点](http://nobodyiam.com/images/2016-06-25/eureka-server-register.png) 
+- Renew 服务续约 心跳检测 服务的可用性
+![服务节点](http://nobodyiam.com/images/2016-06-25/eureka-server-renew.png)
+- Fetch Registers 服务端 获取节点信息
+![节点信息获取](http://nobodyiam.com/images/2016-06-25/eureka-server-fetch.png)
+- eviction 服务剔除 90 秒 Renew 的 自动剔除方式
+  - ```eureka.instance.leaseExpirationDurationInSeconds``` 剔除配置
+  - ```eureka.server.evictionIntervalTimerInMs``` 定期扫描
+  ![剔除](http://nobodyiam.com/images/2016-06-25/eureka-server-evict.png)
+- How Peer Replicates
+  - Post 对应的 InstanceInfo
+  - replication 不同节点 Instance
+- How Peer Nodes are Discovered
+  - EurekaClientConfig.getEurekaServerServiceUrls 获取所有的对等节点
+  - eureka.server.peerEurekaNodesUpdateIntervalMs 获取 更新频率
+  - 通过覆盖 getEurekaServerServiceUrls 方法， 实现可以 通过 DB 等读取
+  ![](http://nobodyiam.com/images/2016-06-25/eureka-server-peer-discovery.png)
+- How New Peer Initializes
+  - server 重启 启动加入
+  - 通过 Register，isReplication=true 完成
+  ![](http://nobodyiam.com/images/2016-06-25/eureka-server-peer-init.png)
+
+### Service Provider 服务提供
+
+- Register ```eureka.client.registerWithEureka=true```
+  ![](http://nobodyiam.com/images/2016-06-25/service-provider-register.png)
+- Renew 定时 更新, 注意 这个是 Client 周期向服务端发送的请求
+  - ```eureka.instance.leaseRenewalIntervalInSeconds``` 默认 30s
+  - ```eureka.instance.leaseExpirationDurationInSeconds``` 服务失效时间 90s
+  ![](http://nobodyiam.com/images/2016-06-25/service-provider-renew.png)
+- Cancel @PreDestory 
+![](http://nobodyiam.com/images/2016-06-25/service-provider-cancel.png)
+- How Eureka Servers are Discovered
+  - 过override getEurekaServerServiceUrls方法来提供自己的实现。定期更新频率可以通过eureka.client.eurekaServiceUrlPollIntervalSeconds配置
+  ![](http://nobodyiam.com/images/2016-06-25/client-discover-eureka-server.png)
+
+### Service Comsumer 实现
+
+- Fetch Service Registries
+  - ```eureka.client.shouldFetchRegistry=true``` 获取服务列表 缓存本地
+  ![](http://nobodyiam.com/images/2016-06-25/service-consumer-fetch-registries.png)
+- Update Service Registries
+  - ```eureka.client.registryFetchIntervalSeconds``` 定时更新 
+  ![](http://nobodyiam.com/images/2016-06-25/service-consumer-update-registries.png)
+- How Eureka Servers are Discovered
+  - 服务发现一样，通过 Db 等中间件
+
+
+
+
