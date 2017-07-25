@@ -56,6 +56,7 @@
 - eureka client 对应的 Spring.factory 的配置添加
 
 ## eureka config 的配置文件
+
 ![eureka 调用图](http://nobodyiam.com/images/2016-06-25/architecture-detail.png)
 
 ### eureka server 实现方式
@@ -65,9 +66,13 @@
   - ```PeerAwareInstanceRegistryImpl``` 调用 ```replicateToPeer``` 同步不同节点的 信息
   ![调用节点](http://nobodyiam.com/images/2016-06-25/eureka-server-register.png) 
 - Renew 服务续约 心跳检测 服务的可用性
+
 ![服务节点](http://nobodyiam.com/images/2016-06-25/eureka-server-renew.png)
+
 - Fetch Registers 服务端 获取节点信息
+
 ![节点信息获取](http://nobodyiam.com/images/2016-06-25/eureka-server-fetch.png)
+
 - eviction 服务剔除 90 秒 Renew 的 自动剔除方式
   - ```eureka.instance.leaseExpirationDurationInSeconds``` 剔除配置
   - ```eureka.server.evictionIntervalTimerInMs``` 定期扫描
@@ -93,8 +98,11 @@
   - ```eureka.instance.leaseRenewalIntervalInSeconds``` 默认 30s
   - ```eureka.instance.leaseExpirationDurationInSeconds``` 服务失效时间 90s
   ![](http://nobodyiam.com/images/2016-06-25/service-provider-renew.png)
+
 - Cancel @PreDestory 
+
 ![](http://nobodyiam.com/images/2016-06-25/service-provider-cancel.png)
+
 - How Eureka Servers are Discovered
   - 过override getEurekaServerServiceUrls方法来提供自己的实现。定期更新频率可以通过eureka.client.eurekaServiceUrlPollIntervalSeconds配置
   ![](http://nobodyiam.com/images/2016-06-25/client-discover-eureka-server.png)
@@ -109,7 +117,3 @@
   ![](http://nobodyiam.com/images/2016-06-25/service-consumer-update-registries.png)
 - How Eureka Servers are Discovered
   - 服务发现一样，通过 Db 等中间件
-
-
-
-
