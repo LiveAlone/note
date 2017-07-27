@@ -54,14 +54,16 @@
   - IRule BaseLoadBalancer 方式 代理选择Server
 - ```DynamicServerListLoadBalancer``` 服务实例清单动态更新
   - ServerList ```getInitialListOfServers``` 获取初始化的服务实例清单, ```getUpdatedListOfServers``` 获取更新的服务实例清单.
-  ![serverlist](http://blog.didispace.com/assets/ribbon-code-3.png)
-- ServerListUpdater 服务清单, DynamicServerListLoadBalancer
+  ![server list 继承关系](http://blog.didispace.com/assets/ribbon-code-3.png)
+    - serverList 的具体实现 ```org.springframework.cloud.netflix.ribbon.eureka``` ```EurekaRibbonClientConfiguration``` 配置添加
+      - DomainExtractingServerList 代理了 DiscoveryEnableNIWServerList 
+
+  - ServerListUpdater 服务清单, DynamicServerListLoadBalancer
     - eureka server list 更新定义
-- ServerListUpdater 定义服务器更新
-  - PollingServerListUpdater：动态服务列表更新的默认策略，也就是说DynamicServerListLoadBalancer负载均衡器中的默认实现就是它，它通过定时任务的方式进行服务列表的更新。
+    - PollingServerListUpdater：动态服务列表更新的默认策略，也就是说DynamicServerListLoadBalancer负载均衡器中的默认实现就是它，它通过定时任务的方式进行服务列表的更新。
     - initialDelayMs和refreshIntervalMs 设置启动延迟， 周期执行时间
-  - EurekaNotificationServerListUpdater：该更新器也可服务于DynamicServerListLoadBalancer负载均衡器，但是它的触发机制与PollingServerListUpdater不同，它需要利用Eureka的事件监听器来驱动服务列表的更新操作。
-  ![server list](http://blog.didispace.com/assets/ribbon-code-4.png)
+    - EurekaNotificationServerListUpdater：该更新器也可服务于DynamicServerListLoadBalancer负载均衡器，但是它的触发机制与PollingServerListUpdater不同，它需要利用Eureka的事件监听器来驱动服务列表的更新操作。
+    ![server list](http://blog.didispace.com/assets/ribbon-code-4.png)
 
   - ServerListFilter 服务列表的过滤
   ![server list filter](http://blog.didispace.com/assets/ribbon-code-6.png)
