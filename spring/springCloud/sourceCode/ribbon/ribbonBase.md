@@ -42,7 +42,7 @@
 - summary
   - LoadBalancerInterceptor 拦截器对RestTemplate的请求进行拦截，并利用Spring Cloud的负载均衡器LoadBalancerClient将以逻辑服务名为host的URI转换成具体的服务实例的过程。同时通过分析LoadBalancerClient的Ribbon实现RibbonLoadBalancerClient，可以知道在使用Ribbon实现负载均衡器的时候，实际使用的还是Ribbon中定义的ILoadBalancer接口的实现，自动化配置会采用ZoneAwareLoadBalancer的实例来进行客户端负载均衡实现
 
-## 负载均衡器 (ILoadBalance 不同实现方式)
+## 负载均衡器 (ILoadBalance 不同实现方式) 获取方式：SpringClientFactory (serviceId) 获取 ILoadBalance
 
 - AbstractLoadBalancer 负载均衡抽象
 - BaseLoadBalancer 基础Server 定义
