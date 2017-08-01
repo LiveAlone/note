@@ -20,7 +20,12 @@
           - 当服务关闭期间，向Eureka Server取消租约
           - 查询Eureka Server中的服务实例列表
         - Eureka Client还需要配置一个Eureka Server的URL列表。
-- ```com.netflix.discovery.endpoint.EndpointUtils``` 获取Region, Zone.
+- ```com.netflix.discovery.endpoint.EndpointUtils.getServiceUrlsFromConfig``` 获取Region(对应物理区域), Zone(相同区域,不同机房). 对应的ServiceUrl, 用来注册Service(applicationName)
+  - 获取方式
+    - 获取Region
+    - 通过Region, 获取Zones
+    - LinkedList, 希望zone在前, 获取不同区域的Zone 的ServiceUrl。 EurekaClientConfig 获取Zone 的ServiceUrl
+      - zone 获取 service-url, Null 条件, 获取 ```defaultZone: http://localhost:8761/eureka/```
   - 获取Region, 一个微服务对应一个 Region, 默认 Default, ```eureka.client.region``` 定义
   - getAvailabilityZones 多个 zone, ```eureka.client.serviceUrl.defaultZone```, ```eureka.client.availability-zones``` region zone 一对多的关系
   - 通过```,``` 分割符号
@@ -33,16 +38,16 @@
 
 - DiscoveryClient initScheduledTasks 启动注册服务的心跳检测
   - ```if (clientConfig.shouldRegisterWithEureka())``` 判定服务注册
-  - InstanceInfoReplicator.run() 中 ```discoveryClient.register()``` 注册自己的服务
+  - InstanceInfoReplicator.run() 中 ```discoveryClient.register()``` 发起注册请求
   - 通过REST APP 方式 请求注册, 参数 InstanceInfo 对应线程注册信息
 - 服务的获取, 服务的续约 ```initScheduledTasks```
   - 服务的获取 Schedule 获取 远程 可用 服务 信息
     - Client 相关续约的判定
       - ```if (clientConfig.shouldFetchRegistry())``` 参数 ```eureka.client.fetch-registry=true```
       - registryFetchIntervalSeconds 配置 ```eureka.client.registry-fetch-interval-seconds=30```
-    - 服务端 相关续约的判定
-      - eureka.instance.lease-renewal-interval-in-seconds=30
-      - eureka.instance.lease-expiration-duration-in-seconds=90
+    - 服务端 相关续约的判定 判断
+      - eureka.instance.lease-renewal-interval-in-seconds=30 (client 端 定时请求 renew)
+      - eureka.instance.lease-expiration-duration-in-seconds=90 (server 端 默认过期时间)
   - 服务的续约, heartbeat 检测, 服务可用防止被踢出
   - renew() 更新
 
@@ -50,6 +55,7 @@
 
 - Eureka Server ```com.netflix.eureka.resources``` 各类的 REST 请求的定义
   - 校验后 Register, ```org.springframework.cloud.netflix.eureka.server.InstanceRegistry``` register 注册 InstanceInfo
+    - 继承PeerRegister, AbstractRetgister,注册服务,同步节点
   - publish Event 事件函数, 散播出去
   - ```com.netflix.eureka.registry.AbstractInstanceRegistry``` 发送 ```ConcurrentHashMap<String, Map<String, Lease<InstanceInfo>>>```
     - key: 对应服务名称。 value 对应InstanceId, InstanceInfo 的配置信息
