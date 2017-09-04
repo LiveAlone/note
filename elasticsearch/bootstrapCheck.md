@@ -38,3 +38,5 @@
   - 检测启动的 服务端 jvm
 - 系统调用过滤
   - Elasticsearch安装了很多系统调用过滤器，用来滤掉一些对Elasticsearch有害的fork调用。
+- OnError OutOfMemory 
+  - Es jvm 运行异常
