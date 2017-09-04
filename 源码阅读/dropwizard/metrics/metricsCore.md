@@ -25,3 +25,7 @@
 - jetty 监控
 - log4j log4j2 配置
 - jvm
+
+## ryantenney metrics-spring 集成的配置方式
+
+- 集成 metrics-spring 的配置方式
