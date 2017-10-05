@@ -19,6 +19,20 @@
 
 ## Index 核心Class 内容
 
+- IndexWriter 新建打开索引, 索引中添加，删除文档内容。 开辟存储空间通过 Directory 完成
+- Directory 路径创建， 添加修改 Index 内容
+- Analyzer 通过文本内容分析器
+- Document 存储Es 文档中的内容
+- Field 字段域， Document 中包含的字段域
+
+## 搜索核心Class
+
+- IndexSearcher 利用Directory 创建的Data 搜索对应的文本
+- Term 匹配符合条件内容
+- Query TermQuery 不同的查询条件的构建方式
+
+
+
 
 
 
