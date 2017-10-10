@@ -31,8 +31,40 @@
 - Term 匹配符合条件内容
 - Query TermQuery 不同的查询条件的构建方式
 
+## lucene 基本文档结构
 
+### Document Field
 
+- Document Lucene 基本数据, Field 搜索的Index 建立
+- Luence Field 基本操作
+  - Document Filed 文本类型， 可以 被Index
+  - Field Index 后, 选择存储向量, 检索当前Field 内容
+  - Field Value 数值可以单独存储
 
+### 索引过程
 
+- 提取文本, 创建文档
+  - 不同文本类型， PDF WPS 类型, 获取文本内容
+- 分析文档
+  - IndexWrite添加对应的 Document 内容
+  - 文本内容分割， Filter 去除无用的Word
+- 向索引添加文档内容（分析的结果写入Index 中） Luence 通过倒排索引（inverted index） 方式存储
+  - 索引段， Lucene 每个Index, 多个 segments_N 多个段
+  - 每个Segment 独立索引，
+  - 每个Segment 包含多个文件， 项向量，存储域，倒排索引等
+  - Lucene 定时 周期的 合并段操作
 
+### Field 域选择
+
+- 通过 field value 创建倒排索引方式
+- 域分析器
+  - Index.Analyzed 指定Value 数值分析
+  - Index.NOT_ANALYZED 不对String 数值进行 解析, 对 Filed 进行索引。(适用 人名，手机号，学号等 不可风格，精确匹配的String 类型)
+  - ```Index.ANALYZED_NO_NORMS```, 不会索引 存储 norms 信息， norms 记录了（索引的时候会消耗内存）
+  - ```Index.NOT_ANALYZED_NO_NORMS``` 不索引，不记录norms 信息。 对于 single-token 适用
+  - ```Index.NO``` 字段File 不应该被搜索
+- field 存储
+  - ```Store.YES```, 指定存储Field 原始字符串值 保存 索引中, 通过Index 
+  - ```Store.NO``` 
+  
+  42 Page
