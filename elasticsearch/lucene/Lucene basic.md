@@ -174,4 +174,4 @@ NOT_ANALYZED | NO | NO | 隐藏关键词
   - LogMergePolicy: 测量段字节数,尺寸方式字节数量
   - LogDocMergePolicy: 尺寸当时 文档数量
 
-第三章
+第三章 配置方式
