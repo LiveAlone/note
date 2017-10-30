@@ -19,11 +19,9 @@ Event 事件预留内存
 
 ![https://github.com/LMAX-Exchange/disruptor/wiki/images/Models.png](https://github.com/LMAX-Exchange/disruptor/wiki/images/Models.png)
 
-
-
 ## Multicast Events
 
-disruptor 与 Queue 不同,  多个Consumer 监控同一个 Queue 时候， BlockQueue 单个Consumer.Disruptor Consumer 并行消费 Event 类型。 
+disruptor 与 Queue 不同,  多个Consumer 监控同一个 Queue 时候， BlockQueue 单个Consumer.Disruptor Consumer 并行消费 Event 类型。
 
 不同操作类型：
 
