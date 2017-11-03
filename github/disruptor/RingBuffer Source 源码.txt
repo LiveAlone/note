@@ -1,0 +1,37 @@
+RingBuffer Source 源码配置方式
+
+DaemonThreadFactory 单例 线程创建方式
+EventProcessor 等待RingBuffer 中 Event可用
+Cursored 当前游标位置
+DataProvider 通过sequece 获取Data 数据
+Sequenced ringBuffer 获取sequence 队列信息
+EventFactory event Instance 初始化
+EventHandler 时间处理方式
+EventProcessor events 可用， consume 处理
+EventReleaser, EventReleaserAware release() 释放处理方式
+EventSink producer 通过Data 生产方式
+EventTranslator One Two Three Arags 不同参数， args 生成对应Event
+WorkHandler Event 事件处理
+
+Sequence long 类型value, cpu 假共享， 左右 pad long 类型， 防止cpu 的消耗
+	value long 类型基础操作
+
+
+
+Sequenced 获取 BufferArray 获取相关的Bean
+	next() next(n) 占用 sequeced 的位置， publish(hi, ho)  producer完成设置
+Sequencer: 协调Sequence, 使用不同等待策略
+
+AbstractSequencer
+	设置 bufferSize, WaitStrategy 等待策略， cursor 游标设置， []gatheringSequence 
+	gatheringSequence 通过CAS 循环校验方式， 不加锁Update 方式
+	SingleProducerSequencerPad 单线程 Producer 
+	MultiProducerSequencer 
+通过 ProducerType Single，Multiply 设置 Publisher 单线程， 多线程配置
+
+Sequence 同步多个Sequence, Lock 方式
+
+WaitStrategy 不同的 等待策略
+  block sleep 不同的 等待策略
+
+
