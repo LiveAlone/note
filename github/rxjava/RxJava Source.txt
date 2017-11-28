@@ -1,0 +1,24 @@
+RxJava 相关配置
+
+1. io.reactivex.functions
+提供接口函数, 为 Lambda 的支持
+
+2 提供 PS 相关接口配置
+Publisher 添加监听Subscriber 
+Subscriber 单个事件监听
+Subscription 在 subscriber 固定数量的回调接口。
+Processor： Publisher, Subscriber 
+
+3. 可以监控对象
+Observable BufferSize 默认大小 128. 提供一个可观察的对象
+
+ObservableFromArray 数组类型被监控对象
+
+4 
+Disposable: Observer 停止Stream Event 的监听。
+
+5 RxJavaPlugins handle 处理特定的 RxJava 配置
+
+6 RxJava 定时任务执行
+Scheduler scheduling units work, 任务日程表执行
+DisableTask task 执行任务类型
